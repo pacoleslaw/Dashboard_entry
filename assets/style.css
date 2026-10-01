@@ -1,0 +1,906 @@
+/* ==========================================================================
+   PHILIPPINE STATISTICS AUTHORITY - OFFICIAL REFERENCE DASHBOARD DESIGN
+   "Population and Housing Statistics: A Closer Look at the Filipino People"
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap');
+
+:root {
+  --psa-navy: #002b5c;
+  --psa-blue-dark: #003366;
+  --psa-blue-brand: #0f52ba;
+  --psa-sidebar-blue: #0b4f9c;
+  --psa-sidebar-active: #06356d;
+
+  --bg-page: #eaf4fb;
+  --bg-card: #ffffff;
+  --border-color: #dce7f1;
+  --border-subtle: #edf4fa;
+
+  --text-main: #0f172a;
+  --text-muted: #54607c;
+  --text-sub: #475569;
+
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-hover: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--bg-page);
+  color: var(--text-main);
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --------------------------------------------------------------------------
+   OUTER DASHBOARD SHELL
+   -------------------------------------------------------------------------- */
+.dashboard-page-wrapper {
+  max-width: 1720px;
+  margin: 0 auto;
+  padding: 14px 20px 20px 20px;
+}
+
+/* --------------------------------------------------------------------------
+   HEADER (Exact Match to Reference Image)
+   -------------------------------------------------------------------------- */
+.ref-header-card {
+  background: linear-gradient(90deg, #f9fcfe 0%, #f6fafd 50%, #f2f9fc 100%);
+  border-radius: 12px;
+  border: 1px solid #dce8f2;
+  padding: 4px 0px 4px 14px;
+  min-height: 74px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+.ref-header-left {
+  display: flex;
+  align-items: center;
+}
+
+.psa-seal-img {
+  height: 48px;
+  width: 48px;
+  object-fit: contain;
+  margin-left: 2px;
+  margin-right: 9px;
+  flex-shrink: 0;
+  display: block;
+}
+
+.psa-official-text-lockup {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-right: 14px;
+  user-select: none;
+}
+
+.psa-text-primary {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.05;
+}
+
+.psa-text-line1 {
+  font-family: 'Cinzel', 'Times New Roman', Times, Georgia, serif;
+  font-weight: 700;
+  font-size: 0.88rem;
+  letter-spacing: 0.6px;
+  color: #1a3068;
+}
+
+.psa-text-line2 {
+  font-family: 'Cinzel', 'Times New Roman', Times, Georgia, serif;
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.2px;
+  color: #1a3068;
+}
+
+.psa-text-divider {
+  width: 100%;
+  height: 1.5px;
+  background-color: #1a3068;
+  margin: 3px 0 2px 0;
+  opacity: 0.85;
+}
+
+.psa-text-tagline {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-weight: 600;
+  font-size: 0.58rem;
+  letter-spacing: 0.2px;
+  color: #1a3068;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.ref-psa-official-lockup {
+  height: 52px;
+  width: auto;
+  object-fit: contain;
+  margin-left: 4px;
+  margin-right: 14px;
+  display: block;
+}
+
+.ref-header-divider {
+  width: 1.5px;
+  height: 48px;
+  background-color: #c8d7e6;
+  margin-right: 16px;
+  flex-shrink: 0;
+}
+
+.ref-title-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.ref-main-title {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 1.38rem;
+  font-weight: 800;
+  color: #030130;
+  line-height: 1.15;
+  letter-spacing: -0.3px;
+}
+
+.ref-subtitle {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #1a3b94;
+  margin-top: 1px;
+  line-height: 1.15;
+}
+
+.ref-desc {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: #54607c;
+  margin-top: 2px;
+  line-height: 1.2;
+}
+
+.ref-header-right {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.ref-right-illustration {
+  height: 100%;
+  width: auto;
+  object-fit: cover;
+  object-position: right center;
+  display: block;
+}
+
+/* --------------------------------------------------------------------------
+   LAYOUT GRID: SIDEBAR & MAIN BODY
+   -------------------------------------------------------------------------- */
+.ref-main-layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+/* --------------------------------------------------------------------------
+   LEFT SIDEBAR (Navy Nav + Filters + Source)
+   -------------------------------------------------------------------------- */
+.ref-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Navy Nav Block */
+.ref-nav-card {
+  background: var(--psa-sidebar-blue);
+  border-radius: 12px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-shadow: var(--shadow-card);
+}
+
+.ref-nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #ffffff;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  transition: all 0.15s ease;
+}
+
+.ref-nav-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.ref-nav-btn.active {
+  background: #0d3875;
+  color: #ffffff;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* White Filter Card */
+.ref-filter-card {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  padding: 16px;
+  box-shadow: var(--shadow-card);
+}
+
+.ref-filter-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--psa-navy);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.ref-filter-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.ref-filter-group {
+  margin-bottom: 12px;
+}
+
+/* White Data Source Card */
+.ref-source-card {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  padding: 14px 16px;
+  box-shadow: var(--shadow-card);
+}
+
+.ref-source-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.ref-source-icon {
+  background: #0284c7;
+  color: #ffffff;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.ref-source-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--psa-navy);
+}
+
+.ref-source-desc {
+  font-size: 0.74rem;
+  color: #475569;
+  line-height: 1.35;
+  margin-bottom: 6px;
+}
+
+.ref-source-link {
+  font-size: 0.76rem;
+  color: #0284c7;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ref-source-link:hover {
+  text-decoration: underline;
+}
+
+.ref-sidebar-foot-note {
+  font-size: 0.7rem;
+  color: #475569;
+  line-height: 1.4;
+  padding: 4px 6px;
+}
+
+/* --------------------------------------------------------------------------
+   MAIN CONTENT AREA (Top 4 KPIs + 3 Column Content Grid)
+   -------------------------------------------------------------------------- */
+.ref-content-area {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+
+/* --------------------------------------------------------------------------
+   TOP 4 KPI CARDS (Matching Reference Layout)
+   -------------------------------------------------------------------------- */
+.ref-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.ref-kpi-card {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: var(--shadow-card);
+}
+
+.ref-kpi-badge {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  flex-shrink: 0;
+}
+
+.ref-kpi-blue {
+  background: #0f4c81;
+  color: #ffffff;
+}
+
+.ref-kpi-green {
+  background: #2e7d32;
+  color: #ffffff;
+}
+
+.ref-kpi-orange {
+  background: #f97316;
+  color: #ffffff;
+}
+
+.ref-kpi-teal {
+  background: #0f766e;
+  color: #ffffff;
+}
+
+.ref-kpi-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.ref-kpi-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+.ref-kpi-num {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: var(--psa-navy);
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+.ref-kpi-delta {
+  font-size: 0.74rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 2px;
+}
+
+.ref-delta-green {
+  color: #16a34a;
+}
+
+.ref-delta-red {
+  color: #dc2626;
+}
+
+/* --------------------------------------------------------------------------
+   3-COLUMN OVERVIEW GRID (Map | Regional Bars & Table | Donuts & Insights)
+   -------------------------------------------------------------------------- */
+.ref-overview-grid {
+  display: grid;
+  grid-template-columns: 1.25fr 1.05fr 1fr;
+  gap: 14px;
+  align-items: start;
+}
+
+/* --------------------------------------------------------------------------
+   WHITE CONTENT PANELS
+   -------------------------------------------------------------------------- */
+.ref-panel {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  padding: 14px 16px;
+  box-shadow: var(--shadow-card);
+  margin-bottom: 12px;
+}
+
+.ref-panel-title {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--psa-navy);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+/* --------------------------------------------------------------------------
+   MAP PANEL & LEAFLET
+   -------------------------------------------------------------------------- */
+.ref-map-card {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  position: relative;
+}
+
+.ref-map-header {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+}
+
+.ref-map-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--psa-navy);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.map-level-switch {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  background: #f1f5f9;
+  padding: 3px 4px;
+  border-radius: 18px;
+  border: 1px solid #e2e8f0;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-2px);
+  transition: opacity 0.22s cubic-bezier(0.4, 0, 0.2, 1), transform 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ref-map-card:hover .map-level-switch {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.map-level-pill {
+  padding: 4px 10px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  border-radius: 14px;
+  border: none;
+  background: transparent;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  line-height: 1.2;
+}
+
+.map-level-pill:hover {
+  color: #002b5c;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.map-level-pill.active {
+  background: #002b5c;
+  color: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 43, 92, 0.3);
+}
+
+.ref-map-container {
+  position: relative;
+  width: 100%;
+  height: 560px;
+  background: #edf5fb;
+}
+
+.ref-map-container .leaflet-container {
+  width: 100% !important;
+  height: 560px !important;
+  background: #edf5fb !important;
+}
+
+/* Leaflet Map Tooltips & NCR Hover Callout matching reference design */
+.leaflet-tooltip.custom-map-tooltip,
+.leaflet-tooltip.custom-ncr-tooltip {
+  background: #1e293b !important;
+  color: #ffffff !important;
+  border-radius: 8px !important;
+  padding: 8px 12px !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  white-space: normal !important;
+  pointer-events: none !important;
+}
+
+.leaflet-tooltip-top.custom-map-tooltip::before,
+.leaflet-tooltip-top.custom-ncr-tooltip::before {
+  border-top-color: #1e293b !important;
+}
+
+.leaflet-tooltip-bottom.custom-map-tooltip::before,
+.leaflet-tooltip-bottom.custom-ncr-tooltip::before {
+  border-bottom-color: #1e293b !important;
+}
+
+.leaflet-tooltip-left.custom-map-tooltip::before,
+.leaflet-tooltip-left.custom-ncr-tooltip::before {
+  border-left-color: #1e293b !important;
+}
+
+.leaflet-tooltip-right.custom-map-tooltip::before,
+.leaflet-tooltip-right.custom-ncr-tooltip::before {
+  border-right-color: #1e293b !important;
+}
+
+/* Hide Plotly Dash Debug Bar for Clean Presentation */
+.dash-debug-menu,
+.dash-fe-error__modal {
+  display: none !important;
+}
+
+/* Ocean watermark labels */
+.ref-watermark-label {
+  position: absolute;
+  color: #3b82f6;
+  font-size: 0.72rem;
+  font-style: italic;
+  font-weight: 600;
+  opacity: 0.65;
+  pointer-events: none;
+  z-index: 400;
+  text-shadow: 0 0 3px rgba(255, 255, 255, 0.8);
+}
+
+/* Compass & Scale */
+.ref-compass-scale {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  z-index: 500;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 0.68rem;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  backdrop-filter: blur(4px);
+}
+
+/* Floating Legend matching reference */
+.ref-map-legend {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 10px 14px;
+  box-shadow: var(--shadow-hover);
+  z-index: 500;
+  font-size: 0.72rem;
+  backdrop-filter: blur(6px);
+  min-width: 145px;
+}
+
+.ref-legend-title {
+  font-weight: 700;
+  color: var(--psa-navy);
+  margin-bottom: 6px;
+  font-size: 0.76rem;
+}
+
+.ref-legend-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+  color: #334155;
+  font-weight: 500;
+}
+
+.ref-legend-circle {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Tooltip matching reference image callout */
+.custom-map-tooltip {
+  background: #0f2942 !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  border-radius: 8px !important;
+  padding: 8px 12px !important;
+  font-size: 0.8rem !important;
+  box-shadow: var(--shadow-hover) !important;
+  pointer-events: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   DID YOU KNOW CARD (Matching Reference)
+   -------------------------------------------------------------------------- */
+.ref-did-you-know {
+  background: #f0f7fe;
+  border: 1px solid #bce0fd;
+  border-radius: 12px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.ref-dyk-icon {
+  font-size: 1.25rem;
+  color: #0284c7;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.ref-dyk-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--psa-navy);
+  margin-bottom: 2px;
+}
+
+.ref-dyk-text {
+  font-size: 0.75rem;
+  color: #334155;
+  line-height: 1.4;
+}
+
+/* --------------------------------------------------------------------------
+   QUICK INSIGHTS PANEL (Matching Reference with Blue Icons)
+   -------------------------------------------------------------------------- */
+.ref-insights-card {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  padding: 14px 16px;
+  box-shadow: var(--shadow-card);
+}
+
+.ref-insight-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.ref-insight-item:last-child {
+  margin-bottom: 0;
+}
+
+.ref-insight-icon-box {
+  background: #e0f2fe;
+  color: #0284c7;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.ref-insight-text {
+  font-size: 0.75rem;
+  color: #334155;
+  line-height: 1.38;
+}
+
+/* --------------------------------------------------------------------------
+   DARK NAVY FOOTER (Matching Reference Image)
+   -------------------------------------------------------------------------- */
+.ref-bottom-footer {
+  background: #002244;
+  border-radius: 10px;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #cbd5e1;
+  font-size: 0.78rem;
+  margin-top: 14px;
+}
+
+.ref-footer-btn {
+  background: transparent;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.ref-footer-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #ffffff;
+}
+
+/* --------------------------------------------------------------------------
+   FOLLOW THE NUMBER (GEOGRAPHIC HIERARCHY) BAR
+   -------------------------------------------------------------------------- */
+.follow-number-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  background: #ffffff;
+  border: 1px solid #dce8f2;
+  border-radius: 8px;
+  padding: 8px 16px;
+  margin-bottom: 14px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+.follow-number-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-weight: 700;
+  font-size: 0.80rem;
+  color: #030130;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.follow-crumbs-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.follow-crumb-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #1a3b94;
+  background: #f1f6fb;
+  border: 1px solid #cbdde9;
+  border-radius: 6px;
+  padding: 4px 10px;
+  line-height: 1.25;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  outline: none;
+}
+
+.follow-crumb-btn:hover {
+  background: #e2eef7;
+  border-color: #9cbcd5;
+  color: #030130;
+  transform: translateY(-1px);
+}
+
+.follow-crumb-btn.active {
+  background: #eff6ff;
+  border: 1.5px solid #1a3b94;
+  color: #1a3b94;
+  font-weight: 700;
+  box-shadow: 0 1px 3px rgba(26, 59, 148, 0.15);
+}
+
+.follow-arrow {
+  color: #8da4be;
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  user-select: none;
+}
+
+/* --------------------------------------------------------------------------
+   RESPONSIVENESS
+   -------------------------------------------------------------------------- */
+@media (max-width: 1400px) {
+  .ref-overview-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 1024px) {
+  .ref-kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .ref-main-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .ref-overview-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .ref-kpi-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ref-header-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+}
