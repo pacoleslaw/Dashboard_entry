@@ -1,0 +1,21 @@
+# Large legacy GeoJSON files exceeding GitHub limit (>100MB)
+data/geojson/municities/
+
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# Local context and memory databases
+.context-mem/
+
+# Environment files
+.env
+.venv
+env/
+venv/
+
+# OS specific files
+.DS_Store
+Thumbs.db
