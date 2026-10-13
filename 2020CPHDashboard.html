@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PSA Dashboard Entry Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --psa-navy: #002b5c;
+            --psa-navy-dark: #001f42;
+            --psa-blue: #0284c7;
+            --psa-blue-hover: #0369a1;
+            --bg-page: #f1f5f9;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #072346 0%, #002b5c 50%, #0c4a6e 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            color: var(--text-main);
+        }
+
+        .portal-wrapper {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+            width: 100%;
+            max-width: 680px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .portal-header {
+            background: linear-gradient(135deg, #002b5c, #001833);
+            color: #ffffff;
+            padding: 32px 32px 28px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            border-bottom: 3px solid #0284c7;
+        }
+
+        .portal-logo {
+            width: 68px;
+            height: 68px;
+            object-fit: contain;
+            border-radius: 50%;
+            background: #ffffff;
+            padding: 4px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            flex-shrink: 0;
+        }
+
+        .portal-header-titles h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.45rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            color: #ffffff;
+        }
+
+        .portal-header-titles p {
+            font-size: 0.88rem;
+            color: #93c5fd;
+            margin-top: 4px;
+        }
+
+        .portal-body {
+            padding: 28px 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* Primary Launcher Card */
+        .primary-launcher {
+            background: linear-gradient(135deg, #f0f7ff, #e0f2fe);
+            border: 2px solid #bae6fd;
+            border-radius: 16px;
+            padding: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            transition: all 0.2s ease;
+        }
+
+        .primary-launcher:hover {
+            border-color: #0284c7;
+            box-shadow: 0 8px 24px rgba(2, 132, 199, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .launcher-info h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #0369a1;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .launcher-info p {
+            font-size: 0.85rem;
+            color: #475569;
+            margin-top: 4px;
+        }
+
+        .launcher-url {
+            font-size: 0.76rem;
+            font-family: monospace;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 2px 8px;
+            border-radius: 6px;
+            color: #0284c7;
+            display: inline-block;
+            margin-top: 6px;
+            border: 1px solid #cbd5e1;
+        }
+
+        .btn-launch {
+            background: linear-gradient(135deg, #0284c7, #0369a1);
+            color: #ffffff;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 12px 22px;
+            border-radius: 10px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+            transition: all 0.15s ease;
+            white-space: nowrap;
+        }
+
+        .btn-launch:hover {
+            background: linear-gradient(135deg, #0369a1, #075985);
+            box-shadow: 0 6px 16px rgba(2, 132, 199, 0.4);
+            transform: scale(1.02);
+        }
+
+        /* Linked Webpages Section */
+        .section-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.92rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e2e8f0;
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 12px;
+        }
+
+        .link-card {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-decoration: none;
+            color: var(--text-main);
+            transition: all 0.15s ease;
+        }
+
+        .link-card:hover {
+            border-color: #0284c7;
+            background: #f8fafc;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .link-card-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .link-icon-box {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+            color: #0284c7;
+        }
+
+        .link-texts h3 {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .link-texts p {
+            font-size: 0.74rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .link-chevron {
+            font-size: 1.1rem;
+            color: #94a3b8;
+            font-weight: 700;
+            transition: transform 0.15s ease;
+        }
+
+        .link-card:hover .link-chevron {
+            color: #0284c7;
+            transform: translateX(3px);
+        }
+
+        /* Footer */
+        .portal-footer {
+            background: #f8fafc;
+            border-top: 1px solid var(--border-color);
+            padding: 14px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.76rem;
+            color: var(--text-muted);
+        }
+
+        .portal-footer a {
+            color: #0284c7;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .portal-footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 580px) {
+            .portal-header {
+                padding: 24px;
+                flex-direction: column;
+                text-align: center;
+            }
+            .portal-body {
+                padding: 20px;
+            }
+            .primary-launcher {
+                flex-direction: column;
+                text-align: center;
+            }
+            .launcher-info h2 {
+                justify-content: center;
+            }
+            .btn-launch {
+                width: 100%;
+                justify-content: center;
+            }
+            .links-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="portal-wrapper">
+        <!-- Header -->
+        <header class="portal-header">
+            <img src="./assets/psa_seal_clean.png" alt="Philippine Statistics Authority" class="portal-logo" onerror="this.style.display='none'">
+            <div class="portal-header-titles">
+                <h1>Philippine Statistics Authority</h1>
+                <p>2020 Census of Population and Housing • Dashboard Portal</p>
+            </div>
+        </header>
+
+        <!-- Body -->
+        <div class="portal-body">
+            <!-- 1. Primary Trigger: Launch Dashboard Webpage -->
+            <div class="primary-launcher">
+                <div class="launcher-info">
+                    <h2>
+                        <span>🚀</span>
+                        <span>Census Statistics Dashboard</span>
+                    </h2>
+                    <p>Open the interactive census dashboard (Overview, Households, Housing, Demographics).</p>
+                    <span class="launcher-url">http://127.0.0.1:8050/</span>
+                </div>
+                <a href="http://127.0.0.1:8050/" target="_blank" class="btn-launch" id="btn-main-dashboard">
+                    <span>Open Dashboard</span>
+                    <span>→</span>
+                </a>
+            </div>
+
+            <!-- 2. Linked Webpages Section -->
+            <div class="section-title">Connected Webpages & Resources</div>
+
+            <div class="links-grid">
+                <!-- Link 1: Official PSA Population & Housing -->
+                <a href="https://psa.gov.ph/statistics/population-and-housing" target="_blank" class="link-card">
+                    <div class="link-card-content">
+                        <div class="link-icon-box" style="background: #e0f2fe; color: #0284c7;">📊</div>
+                        <div class="link-texts">
+                            <h3>PSA Population & Housing</h3>
+                            <p>Official release tables, press releases & data</p>
+                        </div>
+                    </div>
+                    <span class="link-chevron">›</span>
+                </a>
+
+                <!-- Link 2: PSA OpenSTAT Portal -->
+                <a href="https://openstat.psa.gov.ph/" target="_blank" class="link-card">
+                    <div class="link-card-content">
+                        <div class="link-icon-box" style="background: #dcfce7; color: #16a34a;">🌐</div>
+                        <div class="link-texts">
+                            <h3>OpenSTAT Database</h3>
+                            <p>Open data portal with census time series</p>
+                        </div>
+                    </div>
+                    <span class="link-chevron">›</span>
+                </a>
+
+                <!-- Link 3: PSA Main Official Portal -->
+                <a href="https://psa.gov.ph/" target="_blank" class="link-card">
+                    <div class="link-card-content">
+                        <div class="link-icon-box" style="background: #f3e8ff; color: #9333ea;">🏛️</div>
+                        <div class="link-texts">
+                            <h3>PSA Official Portal</h3>
+                            <p>Philippine Statistics Authority homepage</p>
+                        </div>
+                    </div>
+                    <span class="link-chevron">›</span>
+                </a>
+
+                <!-- Link 4: Geographic Information & Maps -->
+                <a href="https://psa.gov.ph/classification/psgc" target="_blank" class="link-card">
+                    <div class="link-card-content">
+                        <div class="link-icon-box" style="background: #ffedd5; color: #ea580c;">🗺️</div>
+                        <div class="link-texts">
+                            <h3>PSGC Geographic Codes</h3>
+                            <p>Standard Geographic Codes for regions & LGUs</p>
+                        </div>
+                    </div>
+                    <span class="link-chevron">›</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="portal-footer">
+            <span>Republic of the Philippines • Philippine Statistics Authority</span>
+            <span>Reference Year: <strong>2020 CPH</strong></span>
+        </footer>
+    </div>
+
+</body>
+</html>

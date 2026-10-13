@@ -30,7 +30,7 @@ All datasets in [`data/`](file:///d:/Programming/Dashboard_entry/data) represent
 
 ### **B. Household & Housing Datasets (CSV)**
 4. **`Total Population, Household Population, and Number of Households...csv`**:
-   - Total Population (`109,033,245`), Household Population (`108,667,043`), and Total Households (`26,393,906`).
+   - Total Population (`109,035,343` official / `108,667,043` household pop), and Total Households (`26,393,906`).
    - Computes **Average Household Size** (`4.1` persons nationwide).
 5. **`Occupied Housing Units... by Type of Building...csv`**:
    - Total Occupied Housing Units (`25,191,610`) and building structure breakdown:
@@ -50,7 +50,7 @@ All datasets in [`data/`](file:///d:/Programming/Dashboard_entry/data) represent
 - **Executive Header & Branding**:
   - Official PSA Emblem, agency titles, motto (*Solid • Responsive • World-class*), and tagline.
 - **Top 4 KPI Cards** (Matching the Official PSA Reference Layout):
-  - **Total Population**: `109,033,245` (with national share / delta)
+  - **Total Population**: `109,035,343` (official count as declared by Proclamation No. 1179)
   - **Total Households**: `26,393,906` (private households)
   - **Average Household Size**: `4.1 persons`
   - **Total Housing Units**: `25,191,610` (occupied housing units)

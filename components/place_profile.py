@@ -138,18 +138,22 @@ def render_place_profile(selected_code="PH000000000"):
     name = entity["name"]
     level = entity["level"]
     pop = entity["total_pop"]
-    male = entity["male_pop"]
-    female = entity["female_pop"]
+    hh_pop = entity.get("household_pop", 0) or pop
+    male = entity.get("hh_male_pop", entity.get("male_pop", 0))
+    female = entity.get("hh_female_pop", entity.get("female_pop", 0))
+    male_share = entity.get("hh_male_share", entity.get("male_share", 50.6))
+    female_share = entity.get("hh_female_share", entity.get("female_share", 49.4))
+    sex_ratio = entity.get("hh_sex_ratio", entity.get("sex_ratio", 102.6))
     nat_share = entity["nat_share"]
     parent_share = entity.get("parent_share", 100.0)
-    sex_ratio = entity["sex_ratio"]
     dep_ratio = entity["dependency_ratio"]
     explanation = get_plain_language_explanation(selected_code)
 
     table_rows = [
-        ("Official Population", format_number(pop)),
-        ("Male Population", f"{format_number(male)} ({entity['male_share']:.1f}%)"),
-        ("Female Population", f"{format_number(female)} ({entity['female_share']:.1f}%)"),
+        ("Household Population", format_number(hh_pop)),
+        ("Official Total Population", format_number(pop)),
+        ("Male Population", f"{format_number(male)} ({male_share:.1f}%)"),
+        ("Female Population", f"{format_number(female)} ({female_share:.1f}%)"),
         ("Sex Ratio", f"{sex_ratio:.1f} males per 100 females"),
         ("Age Dependency Ratio", f"{dep_ratio:.1f} per 100 working-age"),
         ("Share of National Population", f"{nat_share:.2f}%"),
@@ -195,4 +199,4 @@ def render_place_profile(selected_code="PH000000000"):
                 ], style={"marginTop": "8px"})
             ], style={"flex": "1.2", "minWidth": "280px"})
         ], style={"display": "flex", "gap": "20px", "flexWrap": "wrap"})
-    ], className="panel-card")
+    ], className="ref-panel places-profile-panel")

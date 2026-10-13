@@ -2,9 +2,11 @@
 Compare Places Page Layout.
 Facilitates side-by-side descriptive comparison between any two geographic locations.
 """
+import functools
 from dash import html
 from components.comparison import render_comparison_interface
 
+@functools.lru_cache(maxsize=32)
 def render_compare_page(code_a="PH040000000", code_b="PH130000000"):
     return html.Div([
         html.Div([

@@ -22,21 +22,29 @@ def get_indicator_definition(key):
 def get_plain_language_explanation(code):
     """
     Generate an accessible, plain-language summary for the Place Profile.
-    Adheres strictly to official PSA data without subjective conjecture.
+    Adheres strictly to official PSA data and Press Release Ref No. 2022-322.
     """
     entity = get_entity_by_code(code)
     name = entity["name"]
     level = entity["level"]
-    pop_str = format_number(entity["total_pop"])
-    m_pop = format_number(entity["male_pop"])
-    f_pop = format_number(entity["female_pop"])
-    sex_ratio = entity["sex_ratio"]
-    top_age = entity.get("top_age_group", "20-24")
+    tot_pop = entity.get("total_pop", 0)
+    pop_str = format_number(tot_pop)
+    hh_pop = entity.get("household_pop", 0) or tot_pop
+    hh_str = format_number(hh_pop)
+    m_pop = entity.get("hh_male_pop", entity.get("male_pop", 0))
+    f_pop = entity.get("hh_female_pop", entity.get("female_pop", 0))
+    m_pop_str = format_number(m_pop)
+    f_pop_str = format_number(f_pop)
+    m_share = entity.get("hh_male_share", entity.get("male_share", 50.6))
+    f_share = entity.get("hh_female_share", entity.get("female_share", 49.4))
+    sex_ratio = entity.get("hh_sex_ratio", entity.get("sex_ratio", 102.6))
+    top_age = entity.get("top_age_group", "5-9")
 
     if level == "Country":
         return (
             f"As of the May 1, 2020 Census of Population and Housing, the Philippines was home to "
-            f"{pop_str} residents. Of this total, {m_pop} were male and {f_pop} were female, "
+            f"{pop_str} residents, with a household population of {hh_str}. "
+            f"Of this household population, {m_pop_str} ({m_share:.1f}%) were male and {f_pop_str} ({f_share:.1f}%) were female, "
             f"yielding an overall sex ratio of {sex_ratio:.1f} males per 100 females. "
             f"The largest single age cohort nationwide was the {top_age} group."
         )
@@ -44,9 +52,10 @@ def get_plain_language_explanation(code):
         rank, total_reg = get_ranking(code, within="national")
         share = format_percentage(entity["nat_share"])
         return (
-            f"{name} had an official population of {pop_str} in the 2020 Census, accounting for "
+            f"{name} had an official population of {pop_str} ({hh_str} in private households) in the 2020 Census, accounting for "
             f"{share} of the national population. It ranks #{rank} in population size among the country's "
-            f"{total_reg} administrative regions. The region includes {m_pop} males and {f_pop} females."
+            f"{total_reg} administrative regions. The household population comprises {m_pop_str} males ({m_share:.1f}%) and "
+            f"{f_pop_str} females ({f_share:.1f}%), yielding a sex ratio of {sex_ratio:.1f} males per 100 females."
         )
     else:
         # Province or City
@@ -55,10 +64,10 @@ def get_plain_language_explanation(code):
         nat_share = format_percentage(entity.get("nat_share", 0.0))
         rank_reg, count_reg = get_ranking(code, within="region")
         return (
-            f"{name} had an official count of {pop_str} residents in the 2020 Census of Population and Housing. "
+            f"{name} had an official count of {pop_str} residents ({hh_str} in private households) in the 2020 Census of Population and Housing. "
             f"This represents {p_share} of {p_name}'s population and {nat_share} of the national total. "
             f"Within {p_name}, it ranks #{rank_reg} among {count_reg} local jurisdictions. "
-            f"The population comprises {m_pop} males and {f_pop} females."
+            f"The household population comprises {m_pop_str} males ({m_share:.1f}%) and {f_pop_str} females ({f_share:.1f}%)."
         )
 
 def get_quick_insights(code):
@@ -116,6 +125,27 @@ def get_quick_insights(code):
         f"Dependency burden: {dep_ratio:.1f} dependents for every 100 persons in the working-age population."
     )
 
+    # 2020 CPH Press Release specific cohorts (Reproductive Age, School Age, Seniors 60+)
+    f_pop = entity.get("hh_female_pop", entity.get("female_pop", 1)) or 1
+    hh_pop = entity.get("household_pop", pop) or pop
+    age_both = entity.get("hh_age_both", entity.get("age_both", {}))
+    age_female = entity.get("hh_age_female", entity.get("age_female", {}))
+
+    reprod_f = sum(age_female.get(k, 0) for k in ["15-19", "20-24", "25-29", "30-34", "35-39", "40-44", "45-49"])
+    reprod_share = (reprod_f / f_pop) * 100 if f_pop > 0 else 51.9
+
+    school_pop = sum(age_both.get(k, 0) for k in ["5-9", "10-14", "15-19", "20-24"])
+    school_share = (school_pop / hh_pop) * 100 if hh_pop > 0 else 39.4
+
+    senior_pop = sum(age_both.get(k, 0) for k in ["60-64", "65-69", "70-74", "75-79", "80 years old and over"])
+    senior_share = (senior_pop / hh_pop) * 100 if hh_pop > 0 else 8.5
+
+    insights.append(
+        f"Special demographic groups: {reprod_share:.1f}% ({format_compact(reprod_f)}) of females are of reproductive age (15–49); "
+        f"school-age youth (5–24) comprise {school_share:.1f}% ({format_compact(school_pop)}); "
+        f"and senior citizens (60+) make up {senior_share:.1f}% ({format_compact(senior_pop)}) of residents."
+    )
+
     return insights
 
 def get_did_you_know(code):
@@ -127,7 +157,7 @@ def get_did_you_know(code):
     if level == "Country":
         return {
             "title": "Did you know?",
-            "text": "The Philippines reached 109.03 million people in 2020. The three largest regions (Region IV-A, NCR, and Region III) together house over 38% of the entire national population."
+            "text": "The Philippines reached an official total population of 109,035,343 as of May 1, 2020, as declared by Proclamation No. 1179. The three largest regions (Region IV-A, NCR, and Region III) together house over 38% of the entire national population."
         }
     elif "NCR" in name or "National Capital" in name:
         return {

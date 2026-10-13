@@ -26,7 +26,7 @@ def render_data_provenance():
                     html.Br(),
                     html.Span("CENSUS DATE: ", style={"fontWeight": "600", "fontSize": "0.78rem"}),
                     html.Span(meta["census_date"], style={"fontSize": "0.78rem", "color": "var(--text-muted)"}),
-                ], style={"flex": "1", "minWidth": "240px"}),
+                ], style={"flex": "1 1 200px", "minWidth": "200px", "wordBreak": "break-word"}),
 
                 html.Div([
                     html.Span("DATA FILES USED", className="kpi-label"),
@@ -35,7 +35,7 @@ def render_data_provenance():
                         html.Li("data/2020_CPH_POP_by_SEX.xlsx (Sex Breakdown)"),
                         html.Li("data/2020_CPH_POP_by_AGE_and_SEX.xlsx (Age & Sex Pyramid)")
                     ], style={"listStyle": "square", "paddingLeft": "18px", "fontSize": "0.78rem", "color": "#334155", "lineHeight": "1.6"}),
-                ], style={"flex": "1.3", "minWidth": "280px"}),
+                ], style={"flex": "1.2 1 220px", "minWidth": "200px", "wordBreak": "break-word"}),
 
                 html.Div([
                     html.Span("OFFICIAL PSA REPOSITORIES", className="kpi-label"),
@@ -43,10 +43,11 @@ def render_data_provenance():
                         html.Strong("Internal Reference Code: "), html.Code(meta["internal_code"], style={"background": "#f1f5f9", "padding": "2px 6px", "borderRadius": "4px"}), html.Br(),
                         html.Strong("Latest Update: "), meta["latest_update"], html.Br(),
                         html.A("PSA Population & Housing Statistics Portal ↗", href=meta["source_url"], target="_blank", rel="noopener noreferrer", style={"color": "var(--psa-blue)", "fontWeight": "600"}), html.Br(),
-                        html.A("PSA OpenSTAT Archive (Catalog #231) ↗", href=meta["openstat_url"], target="_blank", rel="noopener noreferrer", style={"color": "var(--psa-blue)", "fontWeight": "600"})
-                    ], style={"fontSize": "0.78rem", "lineHeight": "1.6"})
-                ], style={"flex": "1.3", "minWidth": "280px"}),
-            ], style={"display": "flex", "gap": "20px", "flexWrap": "wrap", "marginBottom": "20px"}),
+                        html.A("PSA OpenSTAT Archive (Catalog #231) ↗", href=meta["openstat_url"], target="_blank", rel="noopener noreferrer", style={"color": "var(--psa-blue)", "fontWeight": "600"}), html.Br(),
+                        html.A("PSA Age & Sex Distribution Press Release (Ref No. 2022-322) ↗", href="https://psa.gov.ph/system/files/phcd/2022-12/1_Press%2520Release%2520on_Age%2520Sex_RML_18July22_rev_mpe_RRDH_CRD-signed.pdf", target="_blank", rel="noopener noreferrer", style={"color": "var(--psa-blue)", "fontWeight": "600"})
+                    ], style={"fontSize": "0.78rem", "lineHeight": "1.6", "wordBreak": "break-word"})
+                ], style={"flex": "1.2 1 220px", "minWidth": "200px", "wordBreak": "break-word"}),
+            ], style={"display": "flex", "gap": "16px", "flexWrap": "wrap", "marginBottom": "20px"}),
 
             # Technical Notes
             html.Div([

@@ -6,7 +6,7 @@ Philippines -> Region -> Province/City
 import json
 import os
 import difflib
-from utils.data_loader import load_population_data, get_entity_by_code
+from utils.data_loader import load_population_data, get_entity_by_code, get_cached_regions, get_cached_provinces
 
 # Load precomputed bounds if available
 BOUNDS_FILE = "data/geojson/geo_bounds.json"
@@ -27,20 +27,15 @@ def get_country():
     return get_entity_by_code("PH000000000")
 
 def get_regions():
-    """Return list of all 17 Philippine regions."""
-    entities = load_population_data()
-    return [e for e in entities if e["level"] == "Region"]
+    """Return list of all 17 Philippine regions (cached O(1))."""
+    return get_cached_regions()
 
 def get_provinces(region_code=None):
     """
-    Return list of provinces and cities.
+    Return list of provinces and cities (cached O(1)).
     If region_code is provided, returns children of that region.
     """
-    entities = load_population_data()
-    subunits = [e for e in entities if e["level"] == "Province/City"]
-    if region_code:
-        return [e for e in subunits if e["parent_code"] == region_code]
-    return subunits
+    return get_cached_provinces(region_code)
 
 def get_city_municipalities(province_code=None):
     """
@@ -101,17 +96,38 @@ def get_bounds(code):
     """
     Return [center_lat, center_lon, zoom, bounds] for a given geographic code.
     Defaults to full Philippines view if not found.
+    Always returns tightly fitted item bounds and optimal zoom.
     """
-    # Direct lookup in bounds table
+    if not code or code == "PH000000000":
+        return [12.8797, 121.7740], 6, [[4.5, 116.5], [21.5, 127.0]]
+
+    # 1. Direct lookup in bounds table (contains all 17 regions, 82 provinces, and HUCs)
     if code in _GEO_BOUNDS:
         b = _GEO_BOUNDS[code]
-        return b["center"], b.get("zoom", 7), b.get("bounds")
-    
-    # If it's a sub-unit, check its parent region bounds
+        return b["center"], b.get("zoom", 8), b.get("bounds")
+
+    # 2. Check if it's a municipality code (e.g. PH..._MUNI_CityName)
+    if "_MUNI_" in code:
+        muni_name = code.split("_MUNI_")[-1]
+        muni_key = f"MUNI_{muni_name}"
+        if muni_key in _GEO_BOUNDS:
+            b = _GEO_BOUNDS[muni_key]
+            return b["center"], b.get("zoom", 12), b.get("bounds")
+        muni_key_low = f"MUNI_{muni_name.lower()}"
+        if muni_key_low in _GEO_BOUNDS:
+            b = _GEO_BOUNDS[muni_key_low]
+            return b["center"], b.get("zoom", 12), b.get("bounds")
+
+    # 3. Explicit check for NCR region
+    if code == "PH130000000":
+        return [14.5653, 121.0245], 11, [[14.3493, 120.9169], [14.7813, 121.1321]]
+
+    # 4. If it's a sub-unit without its own entry, check its parent region bounds
     entity = get_entity_by_code(code)
     if entity.get("parent_code") and entity["parent_code"] in _GEO_BOUNDS:
         b = _GEO_BOUNDS[entity["parent_code"]]
-        return b["center"], 8, b.get("bounds")
+        return b["center"], b.get("zoom", 8), b.get("bounds")
 
-    # Default Philippines bounds
+    # 5. Default Philippines bounds
     return [12.8797, 121.7740], 6, [[4.5, 116.5], [21.5, 127.0]]
+

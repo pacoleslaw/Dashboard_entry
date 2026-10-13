@@ -76,6 +76,21 @@ def format_compact(val):
     except (ValueError, TypeError):
         return "No data available"
 
+def format_abbreviated_m(val):
+    """Format population with abbreviation like '55.02 M' (2 decimals for millions, 2 for thousands)."""
+    if val is None or val == "":
+        return "No data available"
+    try:
+        n = float(val)
+        if abs(n) >= 1_000_000:
+            return f"{n / 1_000_000:.2f} M"
+        elif abs(n) >= 1_000:
+            return f"{n / 1_000:.2f} K"
+        else:
+            return f"{int(n):,}"
+    except (ValueError, TypeError):
+        return "No data available"
+
 def format_percentage(val, decimals=1):
     """Format float as percentage string."""
     if val is None or val == "":

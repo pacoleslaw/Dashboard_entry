@@ -1,77 +1,49 @@
 """
 People & Demographics Page Layout.
-Answers 'Who lives in the Philippines?' using 2020 CPH Age & Sex data.
-Includes Population Pyramid, Age cohorts, Sex breakdown, and Dependency metrics.
+Faithfully reproduces the reference UI with:
+- Demographics Top Header: Badge, Title ('DEMOGRAPHICS'), Subtitle ('Who makes up the population?')
+  and 'EXPLORE THIS AREA' 4-dropdown cascade (Country, Region, Province, City/Municipality)
+- 4 Top KPI Cards directly aligned with the 4 columns below:
+  [TOTAL POPULATION] [• MALE] [• FEMALE] [• MEDIAN AGE]
+- 4-Column Content Grid:
+  - Column 1: Population Pyramid (bilateral bars, View By/Age Group dropdowns, zoom/recenter controls)
+  - Column 2: Population by Age Group (horizontal bar chart with 17 gradient bars and percentage labels)
+  - Column 3: Population by Sex (donut chart with center total population and 'What does this mean?' info callout)
+  - Column 4: Explore a Place (metrics table, callout box, Compare button) & Quick Insights (3 icon bullets)
 """
+import functools
 from dash import html
-from components.place_profile import render_follow_the_number
-from components.population_pyramid import render_population_pyramid, render_age_distribution_chart
-from components.charts import render_sex_distribution_chart
-from utils.data_loader import get_entity_by_code
-from utils.formatting import format_number, format_percentage
+from components.demographics import (
+    render_demographics_top_header,
+    render_demographics_kpi_cards,
+    render_demographics_pyramid_card,
+    render_demographics_age_bar_card,
+    render_demographics_sex_donut_card,
+    render_demographics_profile_insights_card
+)
 
+@functools.lru_cache(maxsize=32)
 def render_people_page(selected_code="PH000000000"):
-    entity = get_entity_by_code(selected_code)
-
-    tot = entity["total_pop"]
-    m = entity["male_pop"]
-    f = entity["female_pop"]
-    young = entity["young_pop"]
-    work = entity["working_pop"]
-    old = entity["elderly_pop"]
-
+    """Renders the complete redesigned Demographics page matching the reference image."""
     return html.Div([
-        render_follow_the_number(selected_code),
+        # 1. Top Header with 4-dropdown explore cascade
+        render_demographics_top_header(selected_code),
 
-        # Demographics Summary Cards
+        # 2. 4 Top KPI Cards aligned with the 4 columns below
+        render_demographics_kpi_cards(selected_code),
+
+        # 3. 4-Column Main Content Grid
         html.Div([
-            html.Div([
-                html.Img(src="/assets/icons/users.svg", alt="Children", style={"width": "24px", "height": "24px"}),
-                html.Div([
-                    html.Span("CHILDREN (0-14)", className="kpi-label"),
-                    html.Span(format_number(young), className="kpi-value", style={"fontSize": "1.3rem"}),
-                    html.Span(f"{entity['young_share']:.1f}% of total population", className="kpi-subtext")
-                ])
-            ], className="kpi-card", style={"flex": "1"}),
+            # Column 1: Population Pyramid
+            render_demographics_pyramid_card(selected_code),
 
-            html.Div([
-                html.Img(src="/assets/icons/users.svg", alt="Working Age", style={"width": "24px", "height": "24px"}),
-                html.Div([
-                    html.Span("WORKING-AGE (15-64)", className="kpi-label"),
-                    html.Span(format_number(work), className="kpi-value", style={"fontSize": "1.3rem"}),
-                    html.Span(f"{entity['working_share']:.1f}% of total population", className="kpi-subtext")
-                ])
-            ], className="kpi-card", style={"flex": "1"}),
+            # Column 2: Population by Age Group
+            render_demographics_age_bar_card(selected_code),
 
-            html.Div([
-                html.Img(src="/assets/icons/family.svg", alt="Seniors", style={"width": "24px", "height": "24px"}),
-                html.Div([
-                    html.Span("SENIORS (65+)", className="kpi-label"),
-                    html.Span(format_number(old), className="kpi-value", style={"fontSize": "1.3rem"}),
-                    html.Span(f"{entity['elderly_share']:.1f}% of total population", className="kpi-subtext")
-                ])
-            ], className="kpi-card", style={"flex": "1"}),
+            # Column 3: Population by Sex
+            render_demographics_sex_donut_card(selected_code),
 
-            html.Div([
-                html.Img(src="/assets/icons/chart.svg", alt="Dependency", style={"width": "24px", "height": "24px"}),
-                html.Div([
-                    html.Span("DEPENDENCY RATIO", className="kpi-label"),
-                    html.Span(f"{entity['dependency_ratio']:.1f}", className="kpi-value", style={"fontSize": "1.3rem"}),
-                    html.Span("Dependents per 100 working-age", className="kpi-subtext")
-                ])
-            ], className="kpi-card", style={"flex": "1"})
-        ], style={"display": "flex", "gap": "16px", "marginBottom": "20px", "flexWrap": "wrap"}),
-
-        # Two-column layout for Pyramid & Age chart
-        html.Div([
-            html.Div([
-                render_population_pyramid(selected_code)
-            ], style={"flex": "1.2", "minWidth": "380px"}),
-
-            html.Div([
-                render_sex_distribution_chart(selected_code),
-                html.Div(style={"height": "16px"}),
-                render_age_distribution_chart(selected_code)
-            ], style={"flex": "1", "minWidth": "340px"})
-        ], style={"display": "flex", "gap": "20px", "flexWrap": "wrap"})
-    ])
+            # Column 4: Explore a Place & Quick Insights
+            render_demographics_profile_insights_card(selected_code),
+        ], className="demo-content-grid")
+    ], style={"display": "flex", "flexDirection": "column"})

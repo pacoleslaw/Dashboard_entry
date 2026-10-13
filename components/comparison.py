@@ -74,11 +74,11 @@ def render_comparison_interface(code_a="PH040000000", code_b="PH130000000"):
                     clearable=False,
                     style={"fontSize": "0.82rem"}
                 )
-            ], style={"flex": "1", "minWidth": "250px"}),
+            ], className="compare-select-col"),
 
             html.Div([
-                html.Span("VS", style={"fontWeight": "800", "fontSize": "1.1rem", "color": "var(--text-muted)"})
-            ], style={"display": "flex", "alignItems": "flex-end", "paddingBottom": "6px"}),
+                html.Span("VS", className="compare-vs-text")
+            ], className="compare-vs-badge"),
 
             html.Div([
                 html.Label("PLACE B", style={"fontWeight": "700", "fontSize": "0.78rem", "color": "#b45309"}),
@@ -89,8 +89,8 @@ def render_comparison_interface(code_a="PH040000000", code_b="PH130000000"):
                     clearable=False,
                     style={"fontSize": "0.82rem"}
                 )
-            ], style={"flex": "1", "minWidth": "250px"})
-        ], style={"display": "flex", "alignItems": "center", "gap": "16px", "marginBottom": "20px", "flexWrap": "wrap"}),
+            ], className="compare-select-col")
+        ], className="compare-select-bar"),
 
         # Summary Banner
         html.Div([
@@ -105,22 +105,24 @@ def render_comparison_interface(code_a="PH040000000", code_b="PH130000000"):
             ])
         ], style={"background": "#eff6ff", "border": "1px solid #bfdbfe", "borderRadius": "var(--radius-sm)", "padding": "10px 14px", "marginBottom": "16px"}),
 
-        # Comparison Table
-        html.Table([
-            html.Thead(html.Tr([
-                html.Th("Indicator", style={"width": "40%"}),
-                html.Th(ea["name"], style={"width": "30%", "color": "#1d4ed8", "textAlign": "right"}),
-                html.Th(eb["name"], style={"width": "30%", "color": "#b45309", "textAlign": "right"})
-            ])),
-            html.Tbody([
-                html.Tr([
-                    html.Td(m[0], style={"fontWeight": "600"}),
-                    html.Td(m[1], style={"textAlign": "right", "fontWeight": "600"}),
-                    html.Td(m[2], style={"textAlign": "right", "fontWeight": "600"})
-                ], style={"backgroundColor": "#f8fafc" if i % 2 == 0 else "#ffffff"})
-                for i, m in enumerate(metrics)
-            ])
-        ], style={"width": "100%", "borderCollapse": "collapse", "fontSize": "0.82rem", "marginBottom": "20px", "border": "1px solid var(--border-color)"}),
+        # Comparison Table (Horizontal scroll wrapper for mobile)
+        html.Div([
+            html.Table([
+                html.Thead(html.Tr([
+                    html.Th("Indicator", style={"width": "40%", "minWidth": "140px"}),
+                    html.Th(ea["name"], style={"width": "30%", "minWidth": "100px", "color": "#1d4ed8", "textAlign": "right"}),
+                    html.Th(eb["name"], style={"width": "30%", "minWidth": "100px", "color": "#b45309", "textAlign": "right"})
+                ])),
+                html.Tbody([
+                    html.Tr([
+                        html.Td(m[0], style={"fontWeight": "600"}),
+                        html.Td(m[1], style={"textAlign": "right", "fontWeight": "600"}),
+                        html.Td(m[2], style={"textAlign": "right", "fontWeight": "600"})
+                    ], style={"backgroundColor": "#f8fafc" if i % 2 == 0 else "#ffffff"})
+                    for i, m in enumerate(metrics)
+                ])
+            ], style={"width": "100%", "borderCollapse": "collapse", "fontSize": "0.82rem", "border": "1px solid var(--border-color)"})
+        ], className="ref-table-responsive"),
 
         # Age Breakdown Chart
         dcc.Graph(figure=fig, config={"displayModeBar": False, "responsive": True})
