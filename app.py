@@ -28,14 +28,15 @@ from pages.places import render_places_page
 from pages.compare import render_compare_page
 from pages.definitions import render_definitions_page
 
-app = dash.Dash(
+dash_app = dash.Dash(
     __name__,
     title="Population and Housing Statistics | Philippine Statistics Authority",
     suppress_callback_exceptions=True,
     meta_tags=[{"name": "viewport", "content": "width=device-width, initial-scale=1.0"}]
 )
-server = app.server
+server = dash_app.server
 handler = server
+app = server  # Expose Flask WSGI application as 'app' for Vercel
 
 # -----------------------------------------------------------------------------
 # PERFORMANCE OPTIMIZATION: Transparent Gzip Response Compression
@@ -73,7 +74,7 @@ get_choropleth_data("PH000000000", "region", "households")
 get_choropleth_data("PH000000000", "region", "housing")
 
 # Root Application Layout matching the reference image structure
-app.layout = html.Div([
+dash_app.layout = html.Div([
     # Shared State Stores
     dcc.Store(id="store-selected-code", data="PH000000000"),
     dcc.Store(id="store-active-page", data="overview"),
@@ -118,7 +119,7 @@ app.layout = html.Div([
 # -----------------------------------------------------------------------------
 # CLIENTSIDE CALLBACK: Smooth Horizontal Scroll for Mobile Nav Pills
 # -----------------------------------------------------------------------------
-app.clientside_callback(
+dash_app.clientside_callback(
     """
     function(left_clicks, right_clicks) {
         var trig = window.dash_clientside.callback_context.triggered[0];
@@ -142,7 +143,7 @@ app.clientside_callback(
 # -----------------------------------------------------------------------------
 # CLIENTSIDE CALLBACK 1: Instant Navigation Page Routing (0ms server latency)
 # -----------------------------------------------------------------------------
-app.clientside_callback(
+dash_app.clientside_callback(
     """
     function(n_clicks, compare_clicks, mobile_val) {
         var trig = window.dash_clientside.callback_context.triggered;
@@ -176,7 +177,7 @@ app.clientside_callback(
 # -----------------------------------------------------------------------------
 # CLIENTSIDE CALLBACK 2: Map Indicator Toggle (Instant)
 # -----------------------------------------------------------------------------
-app.clientside_callback(
+dash_app.clientside_callback(
     """
     function(vals) {
         if (!vals || !vals.length) return window.dash_clientside.no_update;
@@ -194,7 +195,7 @@ app.clientside_callback(
 # -----------------------------------------------------------------------------
 # CLIENTSIDE CALLBACK 2B: 2020 CPH Highlights Modal Toggle (Instant)
 # -----------------------------------------------------------------------------
-app.clientside_callback(
+dash_app.clientside_callback(
     """
     function(open_clicks, close_clicks, backdrop_clicks) {
         var trig = window.dash_clientside.callback_context.triggered;
@@ -219,7 +220,7 @@ app.clientside_callback(
 # -----------------------------------------------------------------------------
 # CALLBACK 3: Comparison Places Dropdowns
 # -----------------------------------------------------------------------------
-@app.callback(
+@dash_app.callback(
     Output("store-compare-a", "data"),
     Output("store-compare-b", "data"),
     Input("compare-dropdown-a", "value"),
@@ -241,7 +242,7 @@ def handle_compare_dropdowns(val_a, val_b, compare_clicks, current_a, current_b)
 # Dynamic components use pattern matching (ALL) so the callback never blocks
 # when elements are only present on specific pages.
 # -----------------------------------------------------------------------------
-@app.callback(
+@dash_app.callback(
     Output("store-selected-code", "data"),
     Input({"type": "choropleth-geojson", "id": ALL}, "clickData"),
     Input({"type": "population-bar-chart", "id": ALL}, "clickData"),
@@ -419,7 +420,7 @@ def handle_geo_selection(map_clicks, chart_clicks, hh_clicks, housing_clicks,
 # -----------------------------------------------------------------------------
 # CALLBACK 5: Administrative Map Level Management (Region / Province / Municity)
 # -----------------------------------------------------------------------------
-@app.callback(
+@dash_app.callback(
     Output("store-map-level", "data"),
     Input({"type": "btn-level", "level": ALL}, "n_clicks"),
     Input("store-selected-code", "data"),
@@ -456,7 +457,7 @@ def handle_map_level_change(level_clicks, sel_code, current_level):
 # -----------------------------------------------------------------------------
 # CALLBACK 6: Map Navigation & Viewport State Tracking
 # -----------------------------------------------------------------------------
-@app.callback(
+@dash_app.callback(
     Output("store-map-manual-nav", "data"),
     Output("store-map-viewport", "data"),
     Input({"type": "interactive-map", "id": ALL}, "viewport"),
@@ -486,7 +487,7 @@ def handle_map_navigation_state(viewports, sel_code, map_level, recenter_clicks,
 # Only listens to persistent root dcc.Store components so it NEVER blocks
 # when switching between pages.
 # -----------------------------------------------------------------------------
-@app.callback(
+@dash_app.callback(
     Output("kpi-cards-container", "children"),
     Output("page-content", "children"),
     Output("sidebar-container", "children"),
@@ -556,7 +557,7 @@ def render_main_ui(selected_code, active_page, indicator, map_level, comp_a, com
 # -----------------------------------------------------------------------------
 # CALLBACK 8: Demographics Interactive Chart Toggles
 # -----------------------------------------------------------------------------
-@app.callback(
+@dash_app.callback(
     Output({"type": "demo-pyramid-graph", "id": ALL}, "figure"),
     Input({"type": "demo-pyramid-view", "id": ALL}, "value"),
     Input({"type": "demo-pyramid-age-filter", "id": ALL}, "value"),
@@ -570,7 +571,7 @@ def handle_demo_pyramid_toggle(view_vals, age_vals, selected_code):
     return [build_demographics_pyramid_figure(entity, view, age_filter)]
 
 
-@app.callback(
+@dash_app.callback(
     Output({"type": "demo-age-bar-graph", "id": ALL}, "figure"),
     Input({"type": "demo-age-metric", "id": ALL}, "value"),
     State("store-selected-code", "data"),
@@ -588,4 +589,4 @@ if __name__ == "__main__":
     print("  Official 2020 Census of Population and Housing Dashboard")
     print("  Serving at http://127.0.0.1:8050/")
     print("=" * 70)
-    app.run(debug=True, dev_tools_ui=False, dev_tools_props_check=False, port=8050)
+    dash_app.run(debug=True, dev_tools_ui=False, dev_tools_props_check=False, port=8050)
