@@ -9,10 +9,12 @@ import logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger("DataValidation")
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 REQUIRED_FILES = [
-    "data/2020_CPH_POP_DATA.xlsx",
-    "data/2020_CPH_POP_by_SEX.xlsx",
-    "data/2020_CPH_POP_by_AGE_and_SEX.xlsx"
+    os.path.join(BASE_DIR, "data", "2020_CPH_POP_DATA.xlsx"),
+    os.path.join(BASE_DIR, "data", "2020_CPH_POP_by_SEX.xlsx"),
+    os.path.join(BASE_DIR, "data", "2020_CPH_POP_by_AGE_and_SEX.xlsx")
 ]
 
 def validate_files_exist():

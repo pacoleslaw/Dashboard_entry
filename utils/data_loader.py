@@ -128,9 +128,10 @@ def _load_and_process():
     """Internal function to parse Excel and CSV sheets and build data model."""
     validate_files_exist()
 
-    f_pop = "data/2020_CPH_POP_DATA.xlsx"
-    f_sex = "data/2020_CPH_POP_by_SEX.xlsx"
-    f_age = "data/2020_CPH_POP_by_AGE_and_SEX.xlsx"
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    f_pop = os.path.join(base_dir, "data", "2020_CPH_POP_DATA.xlsx")
+    f_sex = os.path.join(base_dir, "data", "2020_CPH_POP_by_SEX.xlsx")
+    f_age = os.path.join(base_dir, "data", "2020_CPH_POP_by_AGE_and_SEX.xlsx")
 
     logger.info("Reading official PSA Excel files into memory...")
     df_pop = pd.read_excel(f_pop, header=None)
@@ -141,10 +142,10 @@ def _load_and_process():
     age_groups = [str(df_age.iloc[3, c]).strip() for c in range(3, 20)]
 
     # Check for supplementary CSV datasets
-    f_hh = "data/Total Population, Household Population, and Number of Households by Region and Province-Highly Urbanized City- Philippines, 2020.csv"
-    f_bldg = "data/Occupied Housing Units, Number of Households, Household Population, by Type of Building and Province-Highly Urbanized City- Philippines, 2020.csv"
-    f_occ = "data/Occupied Housing Units by Floor Area, Number of Occupants in Each Housing Unit and Province-Highly Urbanized City- Philippines, 2020.csv"
-    f_as_csv = "data/Population by Age Group, Sex, Region, and Province-Highly Urbanized City- Philippines , 2020.csv"
+    f_hh = os.path.join(base_dir, "data", "Total Population, Household Population, and Number of Households by Region and Province-Highly Urbanized City- Philippines, 2020.csv")
+    f_bldg = os.path.join(base_dir, "data", "Occupied Housing Units, Number of Households, Household Population, by Type of Building and Province-Highly Urbanized City- Philippines, 2020.csv")
+    f_occ = os.path.join(base_dir, "data", "Occupied Housing Units by Floor Area, Number of Occupants in Each Housing Unit and Province-Highly Urbanized City- Philippines, 2020.csv")
+    f_as_csv = os.path.join(base_dir, "data", "Population by Age Group, Sex, Region, and Province-Highly Urbanized City- Philippines , 2020.csv")
 
     has_hh_data = os.path.exists(f_hh)
     has_bldg_data = os.path.exists(f_bldg)

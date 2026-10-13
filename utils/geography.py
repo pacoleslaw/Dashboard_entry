@@ -8,8 +8,8 @@ import os
 import difflib
 from utils.data_loader import load_population_data, get_entity_by_code, get_cached_regions, get_cached_provinces
 
-# Load precomputed bounds if available
-BOUNDS_FILE = "data/geojson/geo_bounds.json"
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BOUNDS_FILE = os.path.join(BASE_DIR, "data", "geojson", "geo_bounds.json")
 _GEO_BOUNDS = {}
 if os.path.exists(BOUNDS_FILE):
     try:

@@ -23,24 +23,29 @@ _REGIONS_GEO = None
 _PROVINCES_GEO = None
 _MUNICITIES_GEO = None
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 def _get_regions_geo():
     global _REGIONS_GEO
     if _REGIONS_GEO is None:
-        with open("data/geojson/regions.geojson", "r", encoding="utf-8") as f:
+        path = os.path.join(BASE_DIR, "data", "geojson", "regions.geojson")
+        with open(path, "r", encoding="utf-8") as f:
             _REGIONS_GEO = json.load(f)
     return _REGIONS_GEO
 
 def _get_provinces_geo():
     global _PROVINCES_GEO
     if _PROVINCES_GEO is None:
-        with open("data/geojson/provinces.geojson", "r", encoding="utf-8") as f:
+        path = os.path.join(BASE_DIR, "data", "geojson", "provinces.geojson")
+        with open(path, "r", encoding="utf-8") as f:
             _PROVINCES_GEO = json.load(f)
     return _PROVINCES_GEO
 
 def _get_municities_geo():
     global _MUNICITIES_GEO
     if _MUNICITIES_GEO is None:
-        with open("data/geojson/municities.geojson", "r", encoding="utf-8") as f:
+        path = os.path.join(BASE_DIR, "data", "geojson", "municities.geojson")
+        with open(path, "r", encoding="utf-8") as f:
             _MUNICITIES_GEO = json.load(f)
     return _MUNICITIES_GEO
 
