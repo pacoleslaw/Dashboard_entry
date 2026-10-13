@@ -2,6 +2,7 @@
 Main Dash Application for "Philippines in Focus: People, Places, and Progress".
 Faithfully reproduces the official Philippine Statistics Authority reference dashboard.
 """
+import os
 import gzip
 from flask import request
 import dash
@@ -41,28 +42,30 @@ app = server  # Expose Flask WSGI application as 'app' for Vercel
 # -----------------------------------------------------------------------------
 # PERFORMANCE OPTIMIZATION: Transparent Gzip Response Compression
 # Compresses responses >1KB for clients accepting gzip (98% reduction on wire)
+# Bypassed on Vercel since Vercel edge automatically handles Gzip/Brotli compression
 # -----------------------------------------------------------------------------
-@server.after_request
-def compress_response(response):
-    if response.direct_passthrough:
+if not os.environ.get("VERCEL"):
+    @server.after_request
+    def compress_response(response):
+        if response.direct_passthrough:
+            return response
+        if (
+            response.status_code < 300
+            and "gzip" in request.headers.get("Accept-Encoding", "")
+            and "Content-Encoding" not in response.headers
+            and (
+                response.mimetype.startswith("application/json")
+                or response.mimetype.startswith("text/")
+                or response.mimetype.startswith("application/javascript")
+            )
+        ):
+            data = response.get_data()
+            if len(data) > 1024:
+                compressed = gzip.compress(data, compresslevel=5)
+                response.set_data(compressed)
+                response.headers["Content-Encoding"] = "gzip"
+                response.headers["Content-Length"] = len(compressed)
         return response
-    if (
-        response.status_code < 300
-        and "gzip" in request.headers.get("Accept-Encoding", "")
-        and "Content-Encoding" not in response.headers
-        and (
-            response.mimetype.startswith("application/json")
-            or response.mimetype.startswith("text/")
-            or response.mimetype.startswith("application/javascript")
-        )
-    ):
-        data = response.get_data()
-        if len(data) > 1024:
-            compressed = gzip.compress(data, compresslevel=5)
-            response.set_data(compressed)
-            response.headers["Content-Encoding"] = "gzip"
-            response.headers["Content-Length"] = len(compressed)
-    return response
 
 # Pre-load data and boundaries into memory once at application startup
 load_population_data()
