@@ -689,7 +689,7 @@ def render_map_component(selected_code="PH000000000", indicator="total_pop", map
         ], className="ref-compass-scale"),
     ]
 
-    map_height = "380px"
+    map_height = "100%"
 
     # Leaflet Map with trackViewport enabled to detect user panning/dragging
     container_children.append(

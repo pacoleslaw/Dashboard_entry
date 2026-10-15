@@ -37,7 +37,7 @@ def _build_overview_layout(selected_code="PH000000000", indicator="total_pop", m
             html.Div([
                 # Population Bar Chart
                 html.Div([
-                    render_population_bar_chart(selected_code, height=170, indicator=indicator)
+                    render_population_bar_chart(selected_code, height=230, indicator=indicator)
                 ], className="ref-panel pop-panel-barchart"),
 
                 # Top 5 Table
