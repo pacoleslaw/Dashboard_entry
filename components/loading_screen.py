@@ -24,10 +24,10 @@ def get_animated_psa_svg() -> str:
     return _CACHED_SVG
 
 def get_loading_screen_css() -> str:
-    """Return critical inline CSS for the PSA animated loading screen."""
+    """Return critical inline CSS for the PSA simple loading screen."""
     return """
 /* ==========================================================================
-   PHILIPPINE STATISTICS AUTHORITY - ANIMATED EMBLEM LOADING SCREEN
+   PHILIPPINE STATISTICS AUTHORITY - SIMPLE LOADING SCREEN
    ========================================================================== */
 
 /* Hide Dash default unstyled text */
@@ -43,7 +43,7 @@ def get_loading_screen_css() -> str:
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.98) 0%, rgba(244, 248, 253, 0.98) 45%, rgba(229, 240, 250, 0.98) 100%);
+    background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.98) 0%, rgba(246, 249, 253, 0.98) 100%);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     display: flex;
@@ -53,12 +53,10 @@ def get_loading_screen_css() -> str:
     z-index: 9999999;
     user-select: none;
     padding: 24px;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    color: #0f172a;
     opacity: 1;
     transform: scale(1);
     visibility: visible;
-    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s ease;
+    transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s ease;
 }
 
 .psa-loading-screen-hidden {
@@ -68,262 +66,40 @@ def get_loading_screen_css() -> str:
     visibility: hidden !important;
 }
 
-/* Subtle statistical/cartographic pattern overlay */
-.psa-loading-screen::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: 
-        radial-gradient(rgba(0, 43, 92, 0.06) 1.2px, transparent 1.2px),
-        linear-gradient(to right, rgba(0, 43, 92, 0.02) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(0, 43, 92, 0.02) 1px, transparent 1px);
-    background-size: 32px 32px, 64px 64px, 64px 64px;
-    pointer-events: none;
-    opacity: 0.85;
-}
-
 .psa-loading-card {
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    text-align: center;
-    z-index: 2;
 }
 
-/* --------------------------------------------------------------------------
-   ANIMATED PSA EMBLEM CONTAINER & ORBIT RINGS
-   -------------------------------------------------------------------------- */
-.psa-logo-container {
+/* Simple, clean centered PSA emblem */
+.psa-simple-logo-wrapper {
     position: relative;
-    width: 260px;
-    height: 260px;
+    width: 130px;
+    height: 130px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0;
-}
-
-/* Multi-spectrum Ambient Aura */
-.psa-logo-glow {
-    position: absolute;
-    width: 290px;
-    height: 290px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(0, 56, 168, 0.25) 0%, rgba(252, 209, 22, 0.19) 42%, rgba(206, 17, 38, 0.12) 64%, rgba(255, 255, 255, 0) 74%);
-    animation: psaGlowBreathing 4s ease-in-out infinite alternate;
-    pointer-events: none;
-    z-index: 1;
-}
-
-/* Outer Precision Astronomical Orbit Ring */
-.psa-orbit-outer {
-    position: absolute;
-    width: 250px;
-    height: 250px;
-    border-radius: 50%;
-    border: 1.5px dashed rgba(0, 56, 168, 0.26);
-    animation: psaSpinClockwise 28s linear infinite;
-    pointer-events: none;
-    z-index: 2;
-}
-
-/* Satellite node 1: Philippine Blue */
-.psa-orbit-outer::before {
-    content: '';
-    position: absolute;
-    top: -6px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: #0038a8;
-    box-shadow: 0 0 16px #0038a8, 0 0 4px #ffffff;
-}
-
-/* Satellite node 2: Philippine Red */
-.psa-orbit-outer::after {
-    content: '';
-    position: absolute;
-    bottom: -6px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 11px;
-    height: 11px;
-    border-radius: 50%;
-    background: #ce1126;
-    box-shadow: 0 0 14px #ce1126, 0 0 4px #ffffff;
-}
-
-/* Inner Fast Orbit Ring: Golden Sun */
-.psa-orbit-inner {
-    position: absolute;
-    width: 218px;
-    height: 218px;
-    border-radius: 50%;
-    border: 1.2px solid rgba(252, 209, 22, 0.45);
-    animation: psaSpinCounterClockwise 16s linear infinite;
-    pointer-events: none;
-    z-index: 2;
-}
-
-.psa-orbit-inner::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    right: -5.5px;
-    transform: translateY(-50%);
-    width: 11px;
-    height: 11px;
-    border-radius: 50%;
-    background: #fcd116;
-    box-shadow: 0 0 14px #fcd116, 0 0 5px #fff2a8;
-}
-
-/* --------------------------------------------------------------------------
-   THE ANIMATED SVG EMBLEM
-   -------------------------------------------------------------------------- */
-.psa-emblem-wrapper {
-    position: relative;
-    width: 180px;
-    height: 180px;
-    z-index: 3;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    box-shadow: 
-        0 18px 42px -6px rgba(0, 43, 92, 0.25),
-        0 8px 18px rgba(0, 43, 92, 0.12);
-    animation: psaSealFloat 4s ease-in-out infinite;
+    animation: psaSimplePulse 2.2s ease-in-out infinite alternate;
 }
 
 .psa-animated-svg-emblem {
     width: 100%;
     height: 100%;
     display: block;
-    overflow: visible;
+    filter: drop-shadow(0 4px 14px rgba(0, 43, 92, 0.12));
 }
 
-/* Base white disc */
-.psa-seal-base {
-    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.08));
-}
-
-/* Animated Globe Coordinate Lines */
-.psa-globe-line {
-    transition: all 0.3s ease;
-    animation: psaGlobeGaze 4.5s ease-in-out infinite alternate;
-}
-
-/* Dynamic Ribbon Wave Surges */
-.psa-ribbon {
-    transform-origin: 102px 165px;
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* 1. Philippine Blue Ribbon */
-.psa-ribbon-blue {
-    animation: psaRibbonSurgeBlue 3.4s ease-in-out infinite;
-    filter: drop-shadow(0 2px 8px rgba(0, 56, 168, 0.65));
-}
-
-/* 2. Golden Yellow Ribbon */
-.psa-ribbon-yellow {
-    animation: psaRibbonSurgeYellow 3.4s ease-in-out infinite;
-    animation-delay: 0.22s;
-    filter: drop-shadow(0 2px 10px rgba(252, 209, 22, 0.85));
-}
-
-/* 3. Philippine Red Ribbon */
-.psa-ribbon-red {
-    animation: psaRibbonSurgeRed 3.4s ease-in-out infinite;
-    animation-delay: 0.44s;
-    filter: drop-shadow(0 2px 8px rgba(206, 17, 38, 0.65));
-}
-
-/* --------------------------------------------------------------------------
-   KEYFRAME ANIMATIONS
-   -------------------------------------------------------------------------- */
-@keyframes psaScreenFadeIn {
-    from { opacity: 0; transform: scale(0.97); }
-    to { opacity: 1; transform: scale(1); }
-}
-
-@keyframes psaSealFloat {
-    0%, 100% {
-        transform: translateY(0px) rotate(0deg);
-    }
-    50% {
-        transform: translateY(-9px) rotate(0.4deg);
-    }
-}
-
-@keyframes psaGlowBreathing {
+@keyframes psaSimplePulse {
     0% {
-        transform: scale(0.92);
-        opacity: 0.55;
+        transform: scale(0.97);
+        opacity: 0.88;
     }
     100% {
-        transform: scale(1.18);
-        opacity: 0.95;
-    }
-}
-
-@keyframes psaSpinClockwise {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-@keyframes psaSpinCounterClockwise {
-    from { transform: rotate(360deg); }
-    to { transform: rotate(0deg); }
-}
-
-/* Ribbon Wave / Surges */
-@keyframes psaRibbonSurgeBlue {
-    0%, 100% {
-        transform: translateY(0) scale(1);
-        filter: drop-shadow(0 2px 7px rgba(0, 56, 168, 0.5));
-    }
-    50% {
-        transform: translateY(-2px) scale(1.03);
-        filter: drop-shadow(0 4px 15px rgba(0, 56, 168, 0.85));
-    }
-}
-
-@keyframes psaRibbonSurgeYellow {
-    0%, 100% {
-        transform: translateY(0) scale(1);
-        filter: drop-shadow(0 2px 8px rgba(252, 209, 22, 0.65));
-    }
-    50% {
-        transform: translateY(-2.5px) scale(1.04);
-        filter: drop-shadow(0 5px 18px rgba(252, 209, 22, 0.95));
-    }
-}
-
-@keyframes psaRibbonSurgeRed {
-    0%, 100% {
-        transform: translateY(0) scale(1);
-        filter: drop-shadow(0 2px 7px rgba(206, 17, 38, 0.5));
-    }
-    50% {
-        transform: translateY(-2px) scale(1.03);
-        filter: drop-shadow(0 4px 15px rgba(206, 17, 38, 0.85));
-    }
-}
-
-@keyframes psaGlobeGaze {
-    0% {
-        opacity: 0.72;
-        filter: drop-shadow(0 0 0px rgba(0, 56, 168, 0));
-    }
-    100% {
+        transform: scale(1.03);
         opacity: 1;
-        filter: drop-shadow(0 0 3px rgba(0, 56, 168, 0.4));
     }
 }
 """
@@ -331,20 +107,15 @@ def get_loading_screen_css() -> str:
 def get_loading_screen_overlay_html() -> str:
     """
     Return the standalone HTML structure and intelligent controller script.
-    Guarantees the animated PSA emblem displays during initial bootstrapping,
+    Guarantees the simple PSA emblem displays during initial bootstrapping,
     and automatically shows during runtime only if data loading is long (>380ms).
     """
     psa_svg = get_animated_psa_svg()
     return f"""<div class="psa-loading-screen" id="psa-app-loading-screen">
     <div class="psa-loading-card">
-        <!-- Animated PSA Emblem Logo with Orbiting Satellite Nodes -->
-        <div class="psa-logo-container">
-            <div class="psa-logo-glow"></div>
-            <div class="psa-orbit-outer"></div>
-            <div class="psa-orbit-inner"></div>
-            <div class="psa-emblem-wrapper">
-                {psa_svg}
-            </div>
+        <!-- Clean, Simple Centered PSA Emblem Logo -->
+        <div class="psa-simple-logo-wrapper">
+            {psa_svg}
         </div>
     </div>
     <script>

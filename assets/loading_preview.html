@@ -31,7 +31,7 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: radial-gradient(circle at 50% 50%, #ffffff 0%, #f4f8fd 45%, #e5f0fa 100%);
+            background: radial-gradient(circle at 50% 50%, #ffffff 0%, #f4f8fd 100%);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -39,21 +39,6 @@
             z-index: 9999999;
             user-select: none;
             padding: 24px;
-            animation: psaScreenFadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-            transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .psa-loading-screen::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background-image: 
-                radial-gradient(rgba(0, 43, 92, 0.06) 1.2px, transparent 1.2px),
-                linear-gradient(to right, rgba(0, 43, 92, 0.02) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(0, 43, 92, 0.02) 1px, transparent 1px);
-            background-size: 32px 32px, 64px 64px, 64px 64px;
-            pointer-events: none;
-            opacity: 0.85;
         }
 
         .psa-loading-card {
@@ -62,221 +47,33 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            text-align: center;
-            z-index: 2;
         }
 
-        .psa-logo-container {
+        .psa-simple-logo-wrapper {
             position: relative;
-            width: 260px;
-            height: 260px;
+            width: 130px;
+            height: 130px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0;
-        }
-
-        .psa-logo-glow {
-            position: absolute;
-            width: 290px;
-            height: 290px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(0, 56, 168, 0.25) 0%, rgba(252, 209, 22, 0.19) 42%, rgba(206, 17, 38, 0.12) 64%, rgba(255, 255, 255, 0) 74%);
-            animation: psaGlowBreathing 4s ease-in-out infinite alternate;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .psa-orbit-outer {
-            position: absolute;
-            width: 250px;
-            height: 250px;
-            border-radius: 50%;
-            border: 1.5px dashed rgba(0, 56, 168, 0.26);
-            animation: psaSpinClockwise 28s linear infinite;
-            pointer-events: none;
-            z-index: 2;
-        }
-
-        .psa-orbit-outer::before {
-            content: '';
-            position: absolute;
-            top: -6px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #0038a8;
-            box-shadow: 0 0 16px #0038a8, 0 0 4px #ffffff;
-        }
-
-        .psa-orbit-outer::after {
-            content: '';
-            position: absolute;
-            bottom: -6px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 11px;
-            height: 11px;
-            border-radius: 50%;
-            background: #ce1126;
-            box-shadow: 0 0 14px #ce1126, 0 0 4px #ffffff;
-        }
-
-        .psa-orbit-inner {
-            position: absolute;
-            width: 218px;
-            height: 218px;
-            border-radius: 50%;
-            border: 1.2px solid rgba(252, 209, 22, 0.45);
-            animation: psaSpinCounterClockwise 16s linear infinite;
-            pointer-events: none;
-            z-index: 2;
-        }
-
-        .psa-orbit-inner::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            right: -5.5px;
-            transform: translateY(-50%);
-            width: 11px;
-            height: 11px;
-            border-radius: 50%;
-            background: #fcd116;
-            box-shadow: 0 0 14px #fcd116, 0 0 5px #fff2a8;
-        }
-
-        .psa-emblem-wrapper {
-            position: relative;
-            width: 180px;
-            height: 180px;
-            z-index: 3;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            box-shadow: 
-                0 18px 42px -6px rgba(0, 43, 92, 0.25),
-                0 8px 18px rgba(0, 43, 92, 0.12);
-            animation: psaSealFloat 4s ease-in-out infinite;
+            animation: psaSimplePulse 2.2s ease-in-out infinite alternate;
         }
 
         .psa-animated-svg-emblem {
             width: 100%;
             height: 100%;
             display: block;
-            overflow: visible;
+            filter: drop-shadow(0 4px 14px rgba(0, 43, 92, 0.12));
         }
 
-        .psa-seal-base {
-            filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.08));
-        }
-
-        .psa-globe-line {
-            transition: all 0.3s ease;
-            animation: psaGlobeGaze 4.5s ease-in-out infinite alternate;
-        }
-
-        .psa-ribbon {
-            transform-origin: 102px 165px;
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .psa-ribbon-blue {
-            animation: psaRibbonSurgeBlue 3.4s ease-in-out infinite;
-            filter: drop-shadow(0 2px 8px rgba(0, 56, 168, 0.65));
-        }
-
-        .psa-ribbon-yellow {
-            animation: psaRibbonSurgeYellow 3.4s ease-in-out infinite;
-            animation-delay: 0.22s;
-            filter: drop-shadow(0 2px 10px rgba(252, 209, 22, 0.85));
-        }
-
-        .psa-ribbon-red {
-            animation: psaRibbonSurgeRed 3.4s ease-in-out infinite;
-            animation-delay: 0.44s;
-            filter: drop-shadow(0 2px 8px rgba(206, 17, 38, 0.65));
-        }
-
-        @keyframes psaScreenFadeIn {
-            from { opacity: 0; transform: scale(0.97); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        @keyframes psaSealFloat {
-            0%, 100% {
-                transform: translateY(0px) rotate(0deg);
-            }
-            50% {
-                transform: translateY(-9px) rotate(0.4deg);
-            }
-        }
-
-        @keyframes psaGlowBreathing {
+        @keyframes psaSimplePulse {
             0% {
-                transform: scale(0.92);
-                opacity: 0.55;
+                transform: scale(0.97);
+                opacity: 0.88;
             }
             100% {
-                transform: scale(1.18);
-                opacity: 0.95;
-            }
-        }
-
-        @keyframes psaSpinClockwise {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        @keyframes psaSpinCounterClockwise {
-            from { transform: rotate(360deg); }
-            to { transform: rotate(0deg); }
-        }
-
-        @keyframes psaRibbonSurgeBlue {
-            0%, 100% {
-                transform: translateY(0) scale(1);
-                filter: drop-shadow(0 2px 7px rgba(0, 56, 168, 0.5));
-            }
-            50% {
-                transform: translateY(-2px) scale(1.03);
-                filter: drop-shadow(0 4px 15px rgba(0, 56, 168, 0.85));
-            }
-        }
-
-        @keyframes psaRibbonSurgeYellow {
-            0%, 100% {
-                transform: translateY(0) scale(1);
-                filter: drop-shadow(0 2px 8px rgba(252, 209, 22, 0.65));
-            }
-            50% {
-                transform: translateY(-2.5px) scale(1.04);
-                filter: drop-shadow(0 5px 18px rgba(252, 209, 22, 0.95));
-            }
-        }
-
-        @keyframes psaRibbonSurgeRed {
-            0%, 100% {
-                transform: translateY(0) scale(1);
-                filter: drop-shadow(0 2px 7px rgba(206, 17, 38, 0.5));
-            }
-            50% {
-                transform: translateY(-2px) scale(1.03);
-                filter: drop-shadow(0 4px 15px rgba(206, 17, 38, 0.85));
-            }
-        }
-
-        @keyframes psaGlobeGaze {
-            0% {
-                opacity: 0.72;
-                filter: drop-shadow(0 0 0px rgba(0, 56, 168, 0));
-            }
-            100% {
+                transform: scale(1.03);
                 opacity: 1;
-                filter: drop-shadow(0 0 3px rgba(0, 56, 168, 0.4));
             }
         }
     </style>
@@ -284,12 +81,8 @@
 <body>
     <div class="psa-loading-screen" id="psa-app-loading-screen">
         <div class="psa-loading-card">
-            <!-- Animated PSA Emblem Logo with Multi-Ring Orbits -->
-            <div class="psa-logo-container">
-                <div class="psa-logo-glow"></div>
-                <div class="psa-orbit-outer"></div>
-                <div class="psa-orbit-inner"></div>
-                <div class="psa-emblem-wrapper">
+            <!-- Clean, Simple Centered PSA Emblem Logo -->
+            <div class="psa-simple-logo-wrapper">
                     <svg
    xmlns="http://www.w3.org/2000/svg"
    width="269.93021"
@@ -635,7 +428,6 @@
     </g>
   </g>
 </svg>
-                </div>
             </div>
         </div>
     </div>
