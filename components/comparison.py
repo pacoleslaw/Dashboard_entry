@@ -68,7 +68,7 @@ def render_comparison_interface(code_a="PH040000000", code_b="PH130000000"):
             html.Div([
                 html.Label("PLACE A", style={"fontWeight": "700", "fontSize": "0.78rem", "color": "#1d4ed8"}),
                 dcc.Dropdown(
-                    id="compare-dropdown-a",
+                    id={"type": "compare-dropdown-a", "id": "main"},
                     options=options,
                     value=code_a,
                     clearable=False,
@@ -83,7 +83,7 @@ def render_comparison_interface(code_a="PH040000000", code_b="PH130000000"):
             html.Div([
                 html.Label("PLACE B", style={"fontWeight": "700", "fontSize": "0.78rem", "color": "#b45309"}),
                 dcc.Dropdown(
-                    id="compare-dropdown-b",
+                    id={"type": "compare-dropdown-b", "id": "main"},
                     options=options,
                     value=code_b,
                     clearable=False,

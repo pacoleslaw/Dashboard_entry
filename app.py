@@ -230,19 +230,21 @@ dash_app.clientside_callback(
 @dash_app.callback(
     Output("store-compare-a", "data"),
     Output("store-compare-b", "data"),
-    Input("compare-dropdown-a", "value"),
-    Input("compare-dropdown-b", "value"),
+    Input({"type": "compare-dropdown-a", "id": ALL}, "value"),
+    Input({"type": "compare-dropdown-b", "id": ALL}, "value"),
     Input({"type": "btn-compare-place", "code": ALL}, "n_clicks"),
     State("store-compare-a", "data"),
     State("store-compare-b", "data"),
     prevent_initial_call=True
 )
-def handle_compare_dropdowns(val_a, val_b, compare_clicks, current_a, current_b):
+def handle_compare_dropdowns(vals_a, vals_b, compare_clicks, current_a, current_b):
     trig = ctx.triggered_id
     if isinstance(trig, dict) and trig.get("type") == "btn-compare-place":
         if any(c for c in compare_clicks if c):
             return trig.get("code", current_a), current_b
-    return val_a or current_a or "PH040000000", val_b or current_b or "PH130000000"
+    val_a = next((v for v in vals_a if v), current_a)
+    val_b = next((v for v in vals_b if v), current_b)
+    return val_a or "PH040000000", val_b or "PH130000000"
 
 # -----------------------------------------------------------------------------
 # CALLBACK 4: Unified Geographic State Management (Bi-directional Linkage)

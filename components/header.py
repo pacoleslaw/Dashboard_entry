@@ -44,7 +44,7 @@ def render_header():
                     alt="Better Data. Brighter Future.",
                     className="ref-right-illustration",
                     style={
-                        "height": "70px",          # Adjust right banner illustration height
+                        "height": "50px",          # Compact right banner illustration height
                         "width": "auto",
                         "objectFit": "cover",
                         "objectPosition": "right center"

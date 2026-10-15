@@ -49,7 +49,7 @@ html, body {
   width: 100%;
   box-sizing: border-box;
   margin: 0 auto;
-  padding: 14px 20px 20px 20px;
+  padding: 10px 18px 12px 18px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -62,12 +62,12 @@ html, body {
   background: linear-gradient(90deg, #f9fcfe 0%, #f6fafd 50%, #f2f9fc 100%);
   border-radius: 12px;
   border: 1px solid #dce8f2;
-  padding: 4px 0px 4px 14px;
-  min-height: 74px;
+  padding: 2px 0px 2px 12px;
+  min-height: 56px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 14px;
+  margin-bottom: 10px;
   box-shadow: var(--shadow-card);
   overflow: hidden;
 }
@@ -451,7 +451,7 @@ html, body {
 .ref-content-area {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 10px;
   min-width: 0;
   height: 100%;
 }
@@ -462,20 +462,20 @@ html, body {
 .ref-kpi-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
+  gap: 10px;
 }
 
 .ref-kpi-card {
   background: #ffffff;
   border-radius: 10px;
   border: 1px solid var(--border-color);
-  padding: 10px 16px;
+  padding: 6px 14px;
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
   box-shadow: var(--shadow-card);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
-  min-height: 68px;
+  min-height: 56px;
 }
 
 .ref-kpi-card:hover {
@@ -484,20 +484,20 @@ html, body {
 }
 
 .ref-kpi-badge {
-  width: 44px;
-  height: 44px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   flex-shrink: 0;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.07);
 }
 
 .ref-kpi-badge img {
-  width: 20px;
-  height: 20px;
+  width: 17px;
+  height: 17px;
   object-fit: contain;
 }
 
@@ -856,25 +856,25 @@ html, body {
 .ref-overview-bottom-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
+  gap: 10px;
 }
 
 .feature-banner-card {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 10px 14px;
+  gap: 10px;
+  padding: 8px 12px;
   background: #ffffff;
-  border-radius: 12px;
+  border-radius: 10px;
   border: 1px solid var(--border-color);
   margin-bottom: 0;
 }
 
 .feature-banner-img {
-  width: 90px;
-  height: 72px;
+  width: 76px;
+  height: 60px;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 6px;
   flex-shrink: 0;
 }
 
@@ -884,25 +884,25 @@ html, body {
 }
 
 .feature-banner-title {
-  font-size: 0.88rem;
+  font-size: 0.82rem;
   font-weight: 700;
   color: #0f172a;
   margin-bottom: 2px;
 }
 
 .feature-banner-desc {
-  font-size: 0.72rem;
+  font-size: 0.69rem;
   color: #64748b;
-  line-height: 1.35;
+  line-height: 1.25;
 }
 
 .feature-nav-card {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 12px 14px;
+  padding: 8px 12px;
   background: #ffffff;
-  border-radius: 12px;
+  border-radius: 10px;
   border: 1px solid var(--border-color);
   margin-bottom: 0;
 }
@@ -910,13 +910,13 @@ html, body {
 .feature-nav-header-row {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 6px;
+  gap: 8px;
+  margin-bottom: 4px;
 }
 
 .feature-nav-badge {
-  width: 32px;
-  height: 32px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -924,25 +924,30 @@ html, body {
   flex-shrink: 0;
 }
 
+.feature-nav-badge img {
+  width: 14px !important;
+  height: 14px !important;
+}
+
 .feature-nav-title {
-  font-size: 0.84rem;
+  font-size: 0.78rem;
   font-weight: 700;
   color: #0f172a;
-  line-height: 1.25;
+  line-height: 1.2;
 }
 
 .feature-nav-desc {
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   color: #64748b;
-  line-height: 1.35;
-  margin-bottom: 8px;
+  line-height: 1.25;
+  margin-bottom: 4px;
 }
 
 .feature-nav-btn {
   background: none;
   border: none;
   color: #1e60c6;
-  font-size: 0.76rem;
+  font-size: 0.72rem;
   font-weight: 600;
   cursor: pointer;
   padding: 0;
@@ -1017,12 +1022,12 @@ html, body {
 /* Clean Reference Footer */
 .ref-clean-footer {
   margin-top: auto;
-  padding: 14px 4px 4px 4px;
+  padding: 6px 4px 2px 4px;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  font-size: 0.74rem;
+  font-size: 0.70rem;
   color: #64748b;
   border-top: 1px solid #e2e8f0;
 }
@@ -1156,7 +1161,8 @@ html, body {
 .ref-map-container {
   position: relative;
   width: 100%;
-  height: 560px;
+  height: 100%;
+  min-height: 320px;
   background: #edf5fb;
 }
 
@@ -1206,7 +1212,8 @@ html, body {
 
 .ref-map-container .leaflet-container {
   width: 100% !important;
-  height: 560px !important;
+  height: 100% !important;
+  min-height: 320px;
   background: #edf5fb !important;
 }
 
@@ -1557,8 +1564,8 @@ html, body {
 .ref-overview-grid {
   display: grid;
   grid-template-columns: 1.25fr 1.05fr 1fr;
-  gap: 14px;
-  align-items: start;
+  gap: 10px;
+  align-items: stretch !important;
 }
 
 /* --------------------------------------------------------------------------
@@ -1567,8 +1574,8 @@ html, body {
 .ref-population-grid {
   display: grid;
   grid-template-columns: 1.22fr 1.08fr 1fr;
-  gap: 14px;
-  align-items: stretch;
+  gap: 10px;
+  align-items: stretch !important;
 }
 
 /* Column 1: Map Card (Full Height & Aligned) */
@@ -1583,13 +1590,14 @@ html, body {
   flex-direction: column;
   height: 100%;
   flex: 1;
+  margin-bottom: 0 !important;
 }
 
 .ref-population-grid .pop-col-map .ref-map-container {
   display: flex;
   flex-direction: column;
   flex: 1;
-  min-height: 520px;
+  min-height: 0;
   height: 100% !important;
   position: relative;
 }
@@ -1597,6 +1605,7 @@ html, body {
 .ref-population-grid .pop-col-map .ref-map-container .leaflet-container {
   flex: 1;
   height: 100% !important;
+  min-height: 320px;
   width: 100% !important;
 }
 
@@ -1606,22 +1615,23 @@ html, body {
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
-  gap: 10px;
+  gap: 6px;
 }
 
 .ref-population-grid .pop-col-center .pop-panel-barchart {
-  padding: 10px 14px;
+  padding: 6px 12px;
   margin-bottom: 0 !important;
 }
 
 .ref-population-grid .pop-col-center .pop-panel-table {
-  padding: 10px 14px !important;
+  padding: 6px 12px !important;
   margin-bottom: 0 !important;
 }
 
 .ref-population-grid .pop-col-center .ref-did-you-know {
   margin-bottom: 0 !important;
-  margin-top: auto;
+  margin-top: auto !important;
+  padding: 6px 10px !important;
 }
 
 /* Column 3: Quick Insights (Right Column) */
@@ -1635,7 +1645,8 @@ html, body {
   height: 100%;
   display: flex;
   flex-direction: column;
-  padding: 16px 16px;
+  justify-content: space-between;
+  padding: 10px 12px;
   margin-bottom: 0 !important;
 }
 
@@ -1643,23 +1654,35 @@ html, body {
   display: flex;
   flex-direction: column;
   flex: 1;
-  margin: 12px 0 0 0;
-  gap: 12px;
+  margin: 4px 0 0 0;
+  gap: 6px;
 }
 
 .ref-population-grid .pop-col-insights .ref-qi-item-btn {
-  padding: 14px 14px;
-  border-radius: 10px;
+  padding: 6px 10px;
+  border-radius: 8px;
   flex: 1;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
+}
+
+.ref-population-grid .pop-col-insights .ref-qi-item-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.ref-population-grid .pop-col-insights .ref-qi-item-text {
+  font-size: 0.69rem;
+  color: #475569;
+  line-height: 1.25;
 }
 
 .ref-population-grid .pop-col-insights .ref-qi-promo-card {
-  padding: 11px 13px;
-  border-radius: 10px;
-  margin-top: 12px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  margin-top: auto !important;
   flex-shrink: 0;
 }
 
@@ -1682,9 +1705,9 @@ html, body {
 .ref-housing-grid {
   display: grid;
   grid-template-columns: 1.22fr 1.08fr 1fr;
-  gap: 14px;
-  align-items: stretch;
-  margin-bottom: 14px;
+  gap: 10px;
+  align-items: stretch !important;
+  margin-bottom: 10px;
 }
 
 /* Column 1: Map Card (Full Height & Aligned) */
@@ -1701,6 +1724,7 @@ html, body {
   flex-direction: column;
   height: 100%;
   flex: 1;
+  margin-bottom: 0 !important;
 }
 
 .ref-households-grid .page-col-map .ref-map-container,
@@ -1708,7 +1732,7 @@ html, body {
   display: flex;
   flex-direction: column;
   flex: 1;
-  min-height: 520px;
+  min-height: 0;
   height: 100% !important;
   position: relative;
 }
@@ -1717,6 +1741,7 @@ html, body {
 .ref-housing-grid .page-col-map .ref-map-container .leaflet-container {
   flex: 1;
   height: 100% !important;
+  min-height: 320px;
   width: 100% !important;
 }
 
@@ -1788,9 +1813,9 @@ html, body {
 .places-two-col-layout {
   display: grid;
   grid-template-columns: 1.25fr 1fr;
-  gap: 14px;
-  align-items: stretch;
-  margin-bottom: 14px;
+  gap: 10px;
+  align-items: stretch !important;
+  margin-bottom: 10px;
 }
 
 /* Column 1: Map Card (Full Height & Aligned) */
@@ -1813,7 +1838,7 @@ html, body {
   display: flex;
   flex-direction: column;
   flex: 1;
-  min-height: 520px;
+  min-height: 0;
   height: 100% !important;
   position: relative;
 }
@@ -1821,6 +1846,7 @@ html, body {
 .places-map-col .ref-map-container .leaflet-container {
   flex: 1;
   height: 100% !important;
+  min-height: 320px;
   width: 100% !important;
 }
 
