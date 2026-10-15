@@ -17,6 +17,7 @@ from components.header import render_header
 from components.sidebar import render_sidebar
 from components.kpi_cards import render_kpi_cards
 from components.map import preload_map_geojson, get_choropleth_data
+from components.loading_screen import setup_loading_screen
 
 # Pages
 from components.demographics import build_demographics_pyramid_figure, build_demographics_age_bar_figure
@@ -38,6 +39,9 @@ dash_app = dash.Dash(
 server = dash_app.server
 handler = server
 app = server  # Expose Flask WSGI application as 'app' for Vercel
+
+# Custom Animated PSA Logo and Progress Loading Screen
+setup_loading_screen(dash_app)
 
 # -----------------------------------------------------------------------------
 # PERFORMANCE OPTIMIZATION: Transparent Gzip Response Compression
