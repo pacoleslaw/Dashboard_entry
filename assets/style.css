@@ -1210,6 +1210,39 @@ html, body {
   background: #edf5fb !important;
 }
 
+/* Boundary Legal Disclaimer Strip (RA 10625) */
+.ref-map-disclaimer {
+  padding: 8px 14px;
+  background: #f8fafc;
+  border-top: 1px solid var(--border-color, #e2e8f0);
+  font-size: 0.69rem;
+  line-height: 1.45;
+  color: #64748b;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  flex-shrink: 0;
+  user-select: text;
+}
+
+.ref-map-disclaimer-icon {
+  font-size: 0.78rem;
+  line-height: 1.2;
+  color: #0038a8;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.ref-map-disclaimer-text {
+  flex: 1;
+  word-break: normal;
+}
+
+.ref-map-disclaimer-bold {
+  font-weight: 700;
+  color: #1e293b;
+}
+
 /* Leaflet Map Tooltips & Hover Callout matching reference design */
 .leaflet-tooltip.custom-map-tooltip,
 .leaflet-tooltip.custom-ncr-tooltip {

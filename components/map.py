@@ -717,6 +717,20 @@ def render_map_component(selected_code="PH000000000", indicator="total_pop", map
         ], className="ref-map-header"),
 
         # Map Area with Watermarks, Floating Legend, and Callout
-        html.Div(container_children, className="ref-map-container")
+        html.Div(container_children, className="ref-map-container"),
+
+        # Boundary Legal Disclaimer Strip (RA 10625)
+        html.Div([
+            html.Span("ℹ", className="ref-map-disclaimer-icon"),
+            html.Div([
+                html.Span("Disclaimer: ", className="ref-map-disclaimer-bold"),
+                html.Span(
+                    "The boundaries are non-authoritative and are intended solely for the operational activities "
+                    "of the Philippine Statistics Authority (PSA), pursuant to Republic Act No. 10625. They shall "
+                    "not be construed as official legal, political, or administrative boundary determinations and "
+                    "shall not be used for any legal purpose."
+                )
+            ], className="ref-map-disclaimer-text")
+        ], className="ref-map-disclaimer")
     ], className="ref-map-card")
 
