@@ -20,15 +20,21 @@ def render_quick_insights(selected_code="PH000000000"):
     name = entity.get("short_name", entity["name"])
 
     if level == "Country":
+        people_stat = "109.0M Pop"
         people_desc = "The Philippines has 109.0 million people, with 14.9% living in Region IV-A (CALABARZON)."
+        hh_stat = "26.4M HH"
         hh_desc = "There are 26.4 million households in the Philippines, with an average of 4.1 persons per household."
+        geo_stat = "17 Regions"
         geo_desc = "You can explore the data from the national level down to the city/municipality level."
     else:
         tot_pop = entity["total_pop"]
         tot_hh = entity.get("total_households", 0)
         avg_hh = entity.get("avg_household_size", 0.0)
+        people_stat = f"{format_compact(tot_pop)} Pop"
         people_desc = f"{name} has {format_compact(tot_pop)} people ({format_number(tot_pop)}), accounting for {entity.get('nat_share', 0.0):.1f}% of the Philippine population."
+        hh_stat = f"{format_compact(tot_hh)} HH"
         hh_desc = f"There are {format_compact(tot_hh)} households in this area with an average of {avg_hh:.1f} persons per household."
+        geo_stat = f"{level}"
         geo_desc = f"You can explore constituent provinces, cities and municipalities under {name}."
 
     items = [
@@ -38,6 +44,7 @@ def render_quick_insights(selected_code="PH000000000"):
             "icon": "/assets/icons/users.svg",
             "badge_color": "#1a73e8",
             "title": "People",
+            "stat": people_stat,
             "text": people_desc
         },
         {
@@ -46,6 +53,7 @@ def render_quick_insights(selected_code="PH000000000"):
             "icon": "/assets/icons/house.svg",
             "badge_color": "#059669",
             "title": "Households",
+            "stat": hh_stat,
             "text": hh_desc
         },
         {
@@ -54,6 +62,7 @@ def render_quick_insights(selected_code="PH000000000"):
             "icon": "/assets/icons/pin.svg",
             "badge_color": "#0284c7",
             "title": "Geographic Coverage",
+            "stat": geo_stat,
             "text": geo_desc
         }
     ]
@@ -66,18 +75,25 @@ def render_quick_insights(selected_code="PH000000000"):
                 html.Span("Quick Insights", className="ref-qi-title")
             ], style={"display": "flex", "alignItems": "center", "gap": "8px"}),
             html.Div("Key highlights from the data", className="ref-qi-subtitle")
-        ], style={"marginBottom": "16px"}),
+        ], className="ref-qi-header"),
 
         # Insight Items List
         html.Div([
             html.Button([
                 html.Div(
-                    html.Img(src=item["icon"], style={"width": "18px", "height": "18px", "filter": "brightness(0) invert(1)"}),
+                    html.Img(src=item["icon"], style={"width": "20px", "height": "20px", "filter": "brightness(0) invert(1)"}),
                     className="ref-qi-icon-badge",
                     style={"backgroundColor": item["badge_color"]}
                 ),
                 html.Div([
-                    html.Div(item["title"], className="ref-qi-item-title"),
+                    html.Div([
+                        html.Span(item["title"], className="ref-qi-item-title"),
+                        html.Span(
+                            item["stat"],
+                            className="ref-qi-stat-chip",
+                            style={"backgroundColor": f"{item['badge_color']}15", "color": item['badge_color']}
+                        ) if item.get("stat") else None
+                    ], className="ref-qi-title-row"),
                     html.Div(item["text"], className="ref-qi-item-text")
                 ], className="ref-qi-item-body"),
                 html.Div("›", className="ref-qi-chevron")
