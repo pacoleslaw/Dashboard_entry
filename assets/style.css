@@ -1494,10 +1494,12 @@ html, body {
    FOLLOW THE NUMBER (GEOGRAPHIC HIERARCHY) BAR
    -------------------------------------------------------------------------- */
 .follow-number-bar {
+  position: relative;
+  z-index: 1050;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 16px;
   background: #ffffff;
   border: 1px solid #dce8f2;
   border-radius: 8px;
@@ -1512,11 +1514,136 @@ html, body {
   gap: 8px;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   font-weight: 700;
-  font-size: 0.80rem;
+  font-size: 0.78rem;
   color: #030130;
-  letter-spacing: 0.2px;
+  letter-spacing: 0.3px;
   text-transform: uppercase;
   white-space: nowrap;
+}
+
+.geo-dropdowns-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+}
+
+.geo-dropdown-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1 1 200px;
+  min-width: 190px;
+}
+
+.geo-dropdown-field-label {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+
+.geo-dropdown-select {
+  flex: 1;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 0.80rem;
+  min-width: 140px;
+}
+
+.geo-dropdown-select .Select-control {
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  background-color: #f8fafc;
+  height: 32px;
+  min-height: 32px;
+  transition: all 0.15s ease-in-out;
+  cursor: pointer;
+}
+
+.geo-dropdown-select .Select-control:hover {
+  border-color: #94a3b8;
+  background-color: #ffffff;
+}
+
+.geo-dropdown-select.is-focused > .Select-control,
+.geo-dropdown-select.is-open > .Select-control {
+  border-color: #1a73e8;
+  box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.15);
+  background-color: #ffffff;
+}
+
+.geo-dropdown-select .Select-placeholder,
+.geo-dropdown-select .Select-value {
+  line-height: 32px;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 0.80rem;
+}
+
+.geo-dropdown-select .Select-value-label {
+  color: #0f172a;
+  font-weight: 600;
+}
+
+.geo-dropdown-select.is-disabled > .Select-control {
+  background-color: #f1f5f9;
+  border-color: #e2e8f0;
+  cursor: not-allowed;
+  opacity: 0.75;
+}
+
+.geo-dropdown-select .Select-menu-outer {
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  z-index: 1000 !important;
+  font-size: 0.80rem;
+}
+
+.geo-dropdown-select .Select-option {
+  padding: 8px 12px;
+  font-size: 0.80rem;
+  color: #1e293b;
+}
+
+.geo-dropdown-select .Select-option.is-selected {
+  background-color: #eff6ff;
+  color: #1d4ed8;
+  font-weight: 600;
+}
+
+.geo-dropdown-select .Select-option.is-focused {
+  background-color: #f1f5f9;
+}
+
+.geo-reset-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: #0284c7;
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-radius: 6px;
+  padding: 5px 11px;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  white-space: nowrap;
+  outline: none;
+  margin-left: auto;
+}
+
+.geo-reset-btn:hover {
+  background: #e0f2fe;
+  border-color: #7dd3fc;
+  color: #0369a1;
+  transform: translateY(-1px);
 }
 
 .follow-crumbs-container {
@@ -1563,6 +1690,7 @@ html, body {
   color: #8da4be;
   font-size: 0.85rem;
   font-weight: 600;
+
   display: inline-flex;
   align-items: center;
   user-select: none;

@@ -3,134 +3,145 @@ Place Profile and 'Follow the Number' Component.
 Renders detailed profile of selected geographic entity with plain-language explanation
 and interactive breadcrumb hierarchy navigation.
 """
-from dash import html
+from dash import html, dcc
 from utils.data_loader import get_entity_by_code
+from utils.geography import (
+    get_regions,
+    get_provinces,
+    get_city_municipalities,
+    resolve_geo_hierarchy,
+    HUC_TO_PROVINCE
+)
 from utils.formatting import format_number, format_percentage, format_compact, format_sex_ratio
 from utils.narratives import get_plain_language_explanation
 
 def render_follow_the_number(selected_code="PH000000000"):
     """
-    Renders clickable 'Follow the Number' breadcrumb hierarchy:
-    PHILIPPINES (109.0M) -> REGION (XX.XM) -> PROVINCE/CITY (XX.XM)
+    Renders cascading dropdown selector replacing breadcrumbs:
+    [GEOGRAPHIC FILTER] [Region Dropdown] [Province Dropdown] [City/Mun Dropdown] [↺ Reset]
     """
-    curr = get_entity_by_code(selected_code)
-    nat = get_entity_by_code("PH000000000")
+    sel_reg, sel_prov, sel_city = resolve_geo_hierarchy(selected_code)
 
-    btn_base_style = {
-        "display": "inline-flex",
-        "alignItems": "center",
-        "justifyContent": "center",
-        "fontFamily": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-        "fontSize": "0.78rem",
-        "fontWeight": "600",
-        "color": "#1a3b94",
-        "backgroundColor": "#f1f6fb",
-        "border": "1px solid #cbdde9",
-        "borderRadius": "6px",
-        "padding": "4px 10px",
-        "lineHeight": "1.25",
-        "cursor": "pointer",
-        "transition": "all 0.15s ease-in-out",
-        "verticalAlign": "middle",
-        "outline": "none"
-    }
-
-    btn_active_style = {
-        **btn_base_style,
-        "backgroundColor": "#eff6ff",
-        "border": "1.5px solid #1a3b94",
-        "fontWeight": "700",
-        "color": "#1a3b94",
-        "boxShadow": "0 1px 3px rgba(26, 59, 148, 0.15)"
-    }
-
-    arrow_style = {
-        "color": "#8da4be",
-        "fontSize": "0.85rem",
-        "fontWeight": "700",
-        "display": "inline-flex",
-        "alignItems": "center",
-        "userSelect": "none",
-        "margin": "0 2px",
-        "verticalAlign": "middle"
-    }
-
-    is_country_active = (curr["level"] == "Country")
-    crumbs = [
-        html.Button(
-            f"Philippines ({format_compact(nat['total_pop'])})",
-            id={"type": "crumb-btn", "code": "PH000000000"},
-            className=f"follow-crumb-btn {'active' if is_country_active else ''}",
-            style=btn_active_style if is_country_active else btn_base_style
-        )
+    # 1. Region options
+    regions = get_regions()
+    region_options = [{"label": "All Regions", "value": "ALL"}] + [
+        {"label": r["short_name"], "value": r["code"]} for r in regions
     ]
 
-    if curr["level"] in ["Region", "Province/City"]:
-        reg_code = curr["code"] if curr["level"] == "Region" else curr.get("parent_code")
-        reg = get_entity_by_code(reg_code)
-        is_reg_active = (curr["level"] == "Region")
-        crumbs.append(html.Span("→", className="follow-arrow", style=arrow_style))
-        crumbs.append(
-            html.Button(
-                f"{reg['short_name']} ({format_compact(reg['total_pop'])})",
-                id={"type": "crumb-btn", "code": reg["code"]},
-                className=f"follow-crumb-btn {'active' if is_reg_active else ''}",
-                style=btn_active_style if is_reg_active else btn_base_style
-            )
-        )
+    # 2. Province options
+    if sel_reg and sel_reg != "ALL":
+        if sel_reg == "PH130000000":
+            prov_options = [{"label": "Metropolitan Manila (NCR)", "value": "ALL"}]
+            prov_disabled = True
+            prov_placeholder = "Metropolitan Manila"
+        else:
+            provinces = get_provinces(sel_reg)
+            prov_list = [p for p in provinces if p["name"] not in HUC_TO_PROVINCE]
+            prov_options = [{"label": "All Provinces", "value": "ALL"}] + [
+                {"label": p["name"], "value": p["code"]} for p in prov_list
+            ]
+            prov_disabled = False
+            prov_placeholder = "All Provinces"
+    else:
+        prov_options = [{"label": "All Provinces", "value": "ALL"}]
+        prov_disabled = True
+        prov_placeholder = "Select Region first"
 
-    if curr["level"] == "Province/City":
-        crumbs.append(html.Span("→", className="follow-arrow", style=arrow_style))
-        crumbs.append(
-            html.Button(
-                f"{curr['short_name']} ({format_compact(curr['total_pop'])})",
-                id={"type": "crumb-btn", "code": curr["code"]},
-                className="follow-crumb-btn active",
-                style=btn_active_style
-            )
-        )
+    # 3. City / Municipality options
+    if sel_reg == "PH130000000":
+        ncr_lgus = get_provinces("PH130000000")
+        city_options = [{"label": "All Cities / Municipalities", "value": "ALL"}] + [
+            {"label": lgu["name"], "value": lgu["code"]} for lgu in ncr_lgus
+        ]
+        city_disabled = False
+        city_placeholder = "All Cities / Municipalities"
+    elif sel_prov and sel_prov != "ALL":
+        munis = get_city_municipalities(sel_prov)
+        city_options = [{"label": "All Cities / Municipalities", "value": "ALL"}] + [
+            {"label": m["name"], "value": m["code"]} for m in munis
+        ]
+        city_disabled = False
+        city_placeholder = "All Cities / Municipalities"
+    elif sel_reg and sel_reg != "ALL":
+        provinces = get_provinces(sel_reg)
+        hucs = [p for p in provinces if p["name"] in HUC_TO_PROVINCE]
+        if hucs:
+            city_options = [{"label": "All Cities / Municipalities", "value": "ALL"}] + [
+                {"label": h["name"] + " (HUC)", "value": h["code"]} for h in hucs
+            ]
+        else:
+            city_options = [{"label": "All Cities / Municipalities", "value": "ALL"}]
+        city_disabled = False
+        city_placeholder = "All Cities / Municipalities"
+    else:
+        city_options = [{"label": "All Cities / Municipalities", "value": "ALL"}]
+        city_disabled = True
+        city_placeholder = "Select Province first"
 
-    container_style = {
-        "display": "flex",
-        "alignItems": "center",
-        "flexWrap": "wrap",
-        "gap": "10px",
-        "backgroundColor": "#ffffff",
-        "border": "1px solid #dce8f2",
-        "borderRadius": "8px",
-        "padding": "7px 14px",
-        "marginBottom": "14px",
-        "boxShadow": "0 1px 3px rgba(0, 0, 0, 0.03)"
-    }
-
-    label_style = {
-        "display": "inline-flex",
-        "alignItems": "center",
-        "gap": "8px",
-        "fontFamily": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-        "fontWeight": "700",
-        "fontSize": "0.78rem",
-        "color": "#030130",
-        "letterSpacing": "0.2px",
-        "textTransform": "uppercase",
-        "whiteSpace": "nowrap",
-        "marginRight": "4px"
-    }
-
-    crumbs_container_style = {
-        "display": "inline-flex",
-        "alignItems": "center",
-        "gap": "6px",
-        "flexWrap": "wrap"
-    }
+    has_selection = (sel_reg != "ALL" or sel_prov != "ALL" or sel_city != "ALL")
 
     return html.Div([
+        # Label & Icon
         html.Div([
             html.Img(src="/assets/icons/map.svg", alt="Hierarchy", style={"width": "16px", "height": "16px", "verticalAlign": "middle"}),
-            html.Span("FOLLOW THE NUMBER (Geographic Hierarchy):")
-        ], className="follow-number-label", style=label_style),
-        html.Div(crumbs, className="follow-crumbs-container", style=crumbs_container_style)
-    ], className="follow-number-bar", style=container_style)
+            html.Span("GEOGRAPHIC HIERARCHY:")
+        ], className="follow-number-label"),
+
+        # 3 Cascading Dropdowns
+        html.Div([
+            # Region Dropdown
+            html.Div([
+                html.Span("Region", className="geo-dropdown-field-label"),
+                dcc.Dropdown(
+                    id={"type": "pop-filter-region", "id": "main"},
+                    options=region_options,
+                    value=sel_reg,
+                    clearable=False,
+                    placeholder="All Regions",
+                    className="geo-dropdown-select"
+                )
+            ], className="geo-dropdown-field"),
+
+            # Province Dropdown
+            html.Div([
+                html.Span("Province", className="geo-dropdown-field-label"),
+                dcc.Dropdown(
+                    id={"type": "pop-filter-prov", "id": "main"},
+                    options=prov_options,
+                    value=sel_prov,
+                    clearable=False,
+                    disabled=prov_disabled,
+                    placeholder=prov_placeholder,
+                    className="geo-dropdown-select"
+                )
+            ], className="geo-dropdown-field"),
+
+            # City / Municipality Dropdown
+            html.Div([
+                html.Span("City/Mun", className="geo-dropdown-field-label"),
+                dcc.Dropdown(
+                    id={"type": "pop-filter-city", "id": "main"},
+                    options=city_options,
+                    value=sel_city,
+                    clearable=False,
+                    disabled=city_disabled,
+                    placeholder=city_placeholder,
+                    className="geo-dropdown-select"
+                )
+            ], className="geo-dropdown-field"),
+        ], className="geo-dropdowns-group"),
+
+        # Reset button
+        (
+            html.Button(
+                [html.Span("↺", style={"marginRight": "5px", "fontWeight": "bold"}), "Reset to Philippines"],
+                id={"type": "crumb-btn", "code": "PH000000000"},
+                className="geo-reset-btn",
+                title="Reset to whole country"
+            ) if has_selection else html.Span()
+        )
+    ], className="follow-number-bar")
+
 
 def render_place_profile(selected_code="PH000000000"):
     """Render About This Place and What Does This Mean card."""

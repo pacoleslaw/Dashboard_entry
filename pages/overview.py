@@ -21,9 +21,9 @@ from components.insights import render_quick_insights, render_did_you_know
 def _build_overview_layout(selected_code="PH000000000", indicator="total_pop", map_level="region", manual_nav=False, viewport=None):
     elements = []
 
-    # Only show breadcrumbs when drilled down into a region or province
-    if selected_code != "PH000000000":
-        elements.append(render_follow_the_number(selected_code))
+    # Geographic hierarchy dropdown filter bar (Region, Province, City/Mun)
+    elements.append(render_follow_the_number(selected_code))
+
 
     # 1. Main Middle Section: 3-Column Grid with aligned card bottoms matching reference
     elements.append(

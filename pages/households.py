@@ -216,8 +216,9 @@ def _build_households_layout(selected_code="PH000000000", indicator="households"
 
     # ── Final layout ──────────────────────────────────────────────────────
     elements = []
-    if selected_code != "PH000000000":
-        elements.append(render_follow_the_number(selected_code))
+    # Geographic hierarchy dropdown filter bar (Region, Province, City/Mun)
+    elements.append(render_follow_the_number(selected_code))
+
 
     elements.append(
         # 3-column content grid matching Overview & Population composition

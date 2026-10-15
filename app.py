@@ -155,22 +155,32 @@ dash_app.clientside_callback(
     function(n_clicks, compare_clicks, mobile_val) {
         var trig = window.dash_clientside.callback_context.triggered;
         if (!trig || !trig.length) return window.dash_clientside.no_update;
-        var propId = trig[0].prop_id;
-        if (!propId) return window.dash_clientside.no_update;
-        var trigId = propId.split('.')[0];
 
-        if (trigId === "mobile-nav-page-select" && mobile_val) {
-            return mobile_val === "population" ? "overview" : mobile_val;
+        for (var i = 0; i < trig.length; i++) {
+            var item = trig[i];
+            if (!item || !item.prop_id) continue;
+            var propId = item.prop_id;
+            var trigId = propId.split('.')[0];
+
+            if (trigId === "mobile-nav-page-select" && item.value) {
+                return item.value === "population" ? "overview" : item.value;
+            }
+
+            // Only navigate on authentic user click (n_clicks > 0)
+            if (!item.value || typeof item.value !== "number" || item.value <= 0) {
+                continue;
+            }
+
+            try {
+                var parsed = JSON.parse(trigId);
+                if (parsed.page) {
+                    return parsed.page === "population" ? "overview" : parsed.page;
+                }
+                if (parsed.type === "btn-compare-place") {
+                    return "compare";
+                }
+            } catch(e) {}
         }
-        try {
-            var parsed = JSON.parse(trigId);
-            if (parsed.page) {
-                return parsed.page === "population" ? "overview" : parsed.page;
-            }
-            if (parsed.type === "btn-compare-place") {
-                return "compare";
-            }
-        } catch(e) {}
         return window.dash_clientside.no_update;
     }
     """,
@@ -376,12 +386,23 @@ def handle_geo_selection(map_clicks, chart_clicks, hh_clicks, housing_clicks,
             for p_val in pop_prov_vals:
                 if p_val and p_val != "ALL":
                     return p_val
+            for r_val in pop_reg_vals:
+                if r_val and r_val != "ALL":
+                    return r_val
+            return "PH000000000"
 
         # Population Explore Bar City/Municipality dropdown
         elif comp_type == "pop-filter-city":
             for c_val in pop_city_vals:
                 if c_val and c_val != "ALL":
                     return c_val
+            for p_val in pop_prov_vals:
+                if p_val and p_val != "ALL":
+                    return p_val
+            for r_val in pop_reg_vals:
+                if r_val and r_val != "ALL":
+                    return r_val
+            return "PH000000000"
 
         # Demographics Explore Bar Region dropdown
         elif comp_type == "demo-filter-region":
