@@ -3618,245 +3618,272 @@ button.dash-dropdown.demo-compact-select[aria-expanded="true"],
 }
 
 /* --------------------------------------------------------------------------
-   ANIMATED PSA EMBLEM LOGO
+   ANIMATED PSA EMBLEM CONTAINER & ORBIT RINGS
    -------------------------------------------------------------------------- */
 .psa-logo-container {
   position: relative;
-  width: 170px;
-  height: 170px;
+  width: 260px;
+  height: 260px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 22px;
+  margin: 0;
 }
 
-/* Ambient Radial Glow */
+/* Multi-spectrum Ambient Aura */
 .psa-logo-glow {
   position: absolute;
-  width: 170px;
-  height: 170px;
+  width: 290px;
+  height: 290px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(15, 82, 186, 0.22) 0%, rgba(252, 209, 22, 0.16) 45%, rgba(255, 255, 255, 0) 72%);
-  animation: psaGlowPulse 2.8s ease-in-out infinite alternate;
+  background: radial-gradient(circle, rgba(0, 56, 168, 0.25) 0%, rgba(252, 209, 22, 0.19) 42%, rgba(206, 17, 38, 0.12) 64%, rgba(255, 255, 255, 0) 74%);
+  animation: psaGlowBreathing 4s ease-in-out infinite alternate;
   pointer-events: none;
+  z-index: 1;
 }
 
-/* Concentric Orbit Accent Ring */
-.psa-orbit-ring {
+/* Outer Precision Astronomical Orbit Ring */
+.psa-orbit-outer {
   position: absolute;
-  width: 154px;
-  height: 154px;
+  width: 250px;
+  height: 250px;
   border-radius: 50%;
-  border: 2px dashed rgba(11, 79, 156, 0.25);
-  animation: psaSpinRing 15s linear infinite;
+  border: 1.5px dashed rgba(0, 56, 168, 0.26);
+  animation: psaSpinClockwise 28s linear infinite;
   pointer-events: none;
+  z-index: 2;
 }
 
-.psa-orbit-ring::after {
+.psa-orbit-outer::before {
   content: '';
   position: absolute;
-  top: -4.5px;
+  top: -6px;
   left: 50%;
   transform: translateX(-50%);
-  width: 9px;
-  height: 9px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
-  background: #0f52ba;
-  box-shadow: 0 0 10px #0f52ba, 0 0 4px #fcd116;
+  background: #0038a8;
+  box-shadow: 0 0 16px #0038a8, 0 0 4px #ffffff;
 }
 
-/* The Animated Seal Emblem */
-.psa-logo-img {
-  position: relative;
-  width: 114px;
-  height: 114px;
-  object-fit: contain;
-  image-rendering: high-quality;
-  image-rendering: -webkit-optimize-contrast;
-  filter: drop-shadow(0 10px 24px rgba(0, 43, 92, 0.18));
-  animation: psaFloat 3.2s ease-in-out infinite;
-  z-index: 2;
-  display: block;
-}
-
-/* --------------------------------------------------------------------------
-   OFFICIAL TYPOGRAPHY LOCKUP
-   -------------------------------------------------------------------------- */
-.psa-loading-titles {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 26px;
-}
-
-.psa-loading-agency {
-  font-family: 'Cinzel', 'Times New Roman', Times, Georgia, serif;
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #002b5c;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  line-height: 1.3;
-  margin-bottom: 5px;
-}
-
-.psa-loading-tagline {
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: #54607c;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  margin-bottom: 12px;
-}
-
-.psa-loading-brand-line {
-  width: 60px;
-  height: 2.5px;
-  border-radius: 2px;
-  background: linear-gradient(90deg, #0038a8 0%, #fcd116 50%, #ce1126 100%);
-  margin-bottom: 14px;
-}
-
-.psa-loading-subtitle {
-  font-size: 0.86rem;
-  font-weight: 600;
-  color: #0f52ba;
-  background: rgba(15, 82, 186, 0.07);
-  border: 1px solid rgba(15, 82, 186, 0.16);
-  padding: 6px 18px;
-  border-radius: 999px;
-  display: inline-block;
-}
-
-/* --------------------------------------------------------------------------
-   ANIMATED LOADING BAR
-   -------------------------------------------------------------------------- */
-.psa-progress-wrapper {
-  width: 340px;
-  max-width: 86vw;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-}
-
-.psa-progress-track {
-  position: relative;
-  width: 100%;
-  height: 8px;
-  background: #e0ecf7;
-  border: 1px solid rgba(15, 82, 186, 0.12);
-  border-radius: 999px;
-  overflow: hidden;
-  box-shadow: inset 0 1px 3px rgba(0, 43, 92, 0.10);
-}
-
-.psa-progress-bar {
+.psa-orbit-outer::after {
+  content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 42%;
-  background: linear-gradient(90deg, #0038a8 0%, #0f52ba 35%, #fcd116 70%, #ce1126 100%);
-  background-size: 200% 100%;
-  border-radius: 999px;
-  box-shadow: 0 0 14px rgba(15, 82, 186, 0.5);
-  animation: psaBarSlide 2.1s cubic-bezier(0.4, 0, 0.2, 1) infinite, psaGradientShift 3.5s ease infinite;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #ce1126;
+  box-shadow: 0 0 14px #ce1126, 0 0 4px #ffffff;
 }
 
-.psa-progress-label {
-  font-size: 0.84rem;
-  font-weight: 500;
-  color: #54607c;
-  letter-spacing: 0.02em;
+/* Inner Fast Orbit Ring */
+.psa-orbit-inner {
+  position: absolute;
+  width: 218px;
+  height: 218px;
+  border-radius: 50%;
+  border: 1.2px solid rgba(252, 209, 22, 0.45);
+  animation: psaSpinCounterClockwise 16s linear infinite;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.psa-orbit-inner::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -5.5px;
+  transform: translateY(-50%);
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #fcd116;
+  box-shadow: 0 0 14px #fcd116, 0 0 5px #fff2a8;
+}
+
+/* --------------------------------------------------------------------------
+   THE ANIMATED SVG EMBLEM
+   -------------------------------------------------------------------------- */
+.psa-emblem-wrapper {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  z-index: 3;
   display: flex;
   align-items: center;
-  gap: 6px;
-}
-
-.psa-loading-dots {
-  display: inline-flex;
-  gap: 3.5px;
-}
-
-.psa-loading-dot {
-  width: 4.5px;
-  height: 4.5px;
+  justify-content: center;
   border-radius: 50%;
-  background: #0f52ba;
-  animation: psaDotBounce 1.4s infinite ease-in-out both;
+  box-shadow: 
+    0 18px 42px -6px rgba(0, 43, 92, 0.25),
+    0 8px 18px rgba(0, 43, 92, 0.12);
+  animation: psaSealFloat 4s ease-in-out infinite;
 }
 
-.psa-loading-dot:nth-child(1) { animation-delay: -0.32s; }
-.psa-loading-dot:nth-child(2) { animation-delay: -0.16s; }
-.psa-loading-dot:nth-child(3) { animation-delay: 0s; }
+.psa-animated-svg-emblem {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+}
+
+.psa-seal-base {
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.08));
+}
+
+.psa-globe-line {
+  transition: all 0.3s ease;
+  animation: psaGlobeGaze 4.5s ease-in-out infinite alternate;
+}
+
+.psa-ribbon {
+  transform-origin: 102px 165px;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.psa-ribbon-blue {
+  animation: psaRibbonSurgeBlue 3.4s ease-in-out infinite;
+  filter: drop-shadow(0 2px 8px rgba(0, 56, 168, 0.65));
+}
+
+.psa-ribbon-yellow {
+  animation: psaRibbonSurgeYellow 3.4s ease-in-out infinite;
+  animation-delay: 0.22s;
+  filter: drop-shadow(0 2px 10px rgba(252, 209, 22, 0.85));
+}
+
+.psa-ribbon-red {
+  animation: psaRibbonSurgeRed 3.4s ease-in-out infinite;
+  animation-delay: 0.44s;
+  filter: drop-shadow(0 2px 8px rgba(206, 17, 38, 0.65));
+}
 
 /* --------------------------------------------------------------------------
    KEYFRAME ANIMATIONS
    -------------------------------------------------------------------------- */
 @keyframes psaScreenFadeIn {
-  from {
+  from { opacity: 0; transform: scale(0.97); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes psaSealFloat {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-9px) rotate(0.4deg);
+  }
+}
+
+@keyframes psaGlowBreathing {
+  0% {
+    transform: scale(0.92);
+    opacity: 0.55;
+  }
+  100% {
+    transform: scale(1.18);
+    opacity: 0.95;
+  }
+}
+
+@keyframes psaSpinClockwise {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes psaSpinCounterClockwise {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+@keyframes psaRibbonSurgeBlue {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+    filter: drop-shadow(0 2px 7px rgba(0, 56, 168, 0.5));
+  }
+  50% {
+    transform: translateY(-2px) scale(1.03);
+    filter: drop-shadow(0 4px 15px rgba(0, 56, 168, 0.85));
+  }
+}
+
+@keyframes psaRibbonSurgeYellow {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+    filter: drop-shadow(0 2px 8px rgba(252, 209, 22, 0.65));
+  }
+  50% {
+    transform: translateY(-2.5px) scale(1.04);
+    filter: drop-shadow(0 5px 18px rgba(252, 209, 22, 0.95));
+  }
+}
+
+@keyframes psaRibbonSurgeRed {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+    filter: drop-shadow(0 2px 7px rgba(206, 17, 38, 0.5));
+  }
+  50% {
+    transform: translateY(-2px) scale(1.03);
+    filter: drop-shadow(0 4px 15px rgba(206, 17, 38, 0.85));
+  }
+}
+
+@keyframes psaGlobeGaze {
+  0% {
+    opacity: 0.72;
+    filter: drop-shadow(0 0 0px rgba(0, 56, 168, 0));
+  }
+  100% {
+    opacity: 1;
+    filter: drop-shadow(0 0 3px rgba(0, 56, 168, 0.4));
+  }
+}
+
+@keyframes psaBrandGlow {
+  0% {
+    box-shadow: 0 1px 4px rgba(0, 56, 168, 0.25);
+    transform: scaleX(0.95);
+  }
+  100% {
+    box-shadow: 0 2px 10px rgba(252, 209, 22, 0.55), 0 0 8px rgba(0, 56, 168, 0.3);
+    transform: scaleX(1.05);
+  }
+}
+
+@keyframes psaBeaconRipple {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(2.2);
     opacity: 0;
   }
-  to {
-    opacity: 1;
-  }
 }
 
-@keyframes psaFloat {
+@keyframes psaBeaconColor {
   0%, 100% {
-    transform: translateY(0px) scale(1);
+    background: #0038a8;
+    box-shadow: 0 0 6px #0038a8;
   }
-  50% {
-    transform: translateY(-6px) scale(1.025);
+  33% {
+    background: #fcd116;
+    box-shadow: 0 0 6px #fcd116;
   }
-}
-
-@keyframes psaGlowPulse {
-  0% {
-    transform: scale(0.9);
-    opacity: 0.45;
+  66% {
+    background: #ce1126;
+    box-shadow: 0 0 6px #ce1126;
   }
-  100% {
-    transform: scale(1.22);
-    opacity: 0.85;
-  }
-}
-
-@keyframes psaSpinRing {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes psaBarSlide {
-  0% {
-    left: -40%;
-    width: 30%;
-  }
-  50% {
-    left: 30%;
-    width: 55%;
-  }
-  100% {
-    left: 100%;
-    width: 30%;
-  }
-}
-
-@keyframes psaGradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
 }
 
 @keyframes psaDotBounce {
   0%, 80%, 100% {
     transform: scale(0);
-    opacity: 0.25;
+    opacity: 0.3;
   }
   40% {
     transform: scale(1);
