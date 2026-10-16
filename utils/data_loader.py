@@ -401,7 +401,7 @@ def _load_and_process():
         "reference_year": 2020,
         "census_date": "May 1, 2020",
         "source": "Philippine Statistics Authority (PSA)",
-        "source_url": "https://psa.gov.ph/statistics/population-and-housing",
+        "source_url": "https://psa.gov.ph/content/age-and-sex-distribution-philippine-population-2020-census-population-and-housing",
         "openstat_url": "https://psada.psa.gov.ph/catalog/231",
         "internal_code": "1A6DPAG0",
         "unit": "Persons / Households / Housing Units",

@@ -12,6 +12,7 @@ Faithfully reproduces the reference image with:
 """
 import functools
 from dash import html, dcc
+from components.place_profile import render_follow_the_number
 from components.map import render_map_component
 from components.charts import render_housing_units_by_region_bar, render_housing_types_donut
 from utils.data_loader import get_entity_by_code
@@ -214,8 +215,13 @@ def _build_housing_layout(selected_code="PH000000000", indicator="housing", map_
         ], style={"display": "flex", "alignItems": "flex-start"}),
     ], className="hh-plain-language-strip")
 
-    # ── 3-Column Content Grid ─────────────────────────────────────────────
-    return html.Div([
+    # ── Final layout ──────────────────────────────────────────────────────
+    elements = []
+    # Geographic hierarchy dropdown filter bar (Region, Province, City/Mun)
+    elements.append(render_follow_the_number(selected_code))
+
+    elements.append(
+        # 3-Column Content Grid
         html.Div([
             # Column 1: Interactive Map (Left)
             html.Div([
@@ -235,10 +241,12 @@ def _build_housing_layout(selected_code="PH000000000", indicator="housing", map_
                 _render_housing_profile(entity),
                 _render_housing_quick_insights(entity),
             ], className="page-col-right", style={"minWidth": "0"})
-        ], className="ref-overview-grid ref-housing-grid"),
+        ], className="ref-overview-grid ref-housing-grid")
+    )
 
-        plain_language_strip
-    ])
+    elements.append(plain_language_strip)
+
+    return html.Div(elements)
 
 
 @functools.lru_cache(maxsize=32)

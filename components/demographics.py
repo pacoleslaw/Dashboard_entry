@@ -891,7 +891,7 @@ def render_cph_modal(entity, cph):
             html.Div([
                 html.Div([
                     html.Span("Source: ", style={"fontSize": "0.7rem", "color": "#64748b"}),
-                    html.A("PSA Press Release 2022-322", href="https://psa.gov.ph/statistics/population-and-housing", target="_blank",
+                    html.A("PSA Press Release 2022-322", href="https://psa.gov.ph/content/age-and-sex-distribution-philippine-population-2020-census-population-and-housing", target="_blank",
                            style={"fontSize": "0.7rem", "color": "#0284c7", "fontWeight": "600", "textDecoration": "none"})
                 ]),
                 html.Button("Close", id={"type": "btn-close-cph-modal", "id": "main"}, className="demo-pill-btn",

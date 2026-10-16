@@ -142,7 +142,7 @@ def render_sidebar(active_page="overview", selected_region=None, selected_provin
                 html.Span("View PSA Source"),
                 html.Span("→", style={"fontSize": "0.85rem", "fontWeight": "600"})
             ],
-            href="https://psa.gov.ph/statistics/population-and-housing",
+            href="https://psa.gov.ph/content/age-and-sex-distribution-philippine-population-2020-census-population-and-housing",
             target="_blank",
             rel="noopener noreferrer",
             className="ref-source-link-clean"
