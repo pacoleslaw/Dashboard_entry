@@ -9,7 +9,7 @@ Faithfully reproduces the reference UI with:
   - Column 1: Population Pyramid (bilateral bars, View By/Age Group dropdowns, zoom/recenter controls)
   - Column 2: Population by Age Group (horizontal bar chart with 17 gradient bars and percentage labels)
   - Column 3: Population by Sex (donut chart with center total population and 'What does this mean?' info callout)
-  - Column 4: Explore a Place (metrics table, callout box, Compare button) & Quick Insights (3 icon bullets)
+  - Column 4: Explore a Place (metrics table, callout box) & Quick Insights (3 icon bullets)
 """
 import functools
 from dash import html

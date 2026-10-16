@@ -10,13 +10,35 @@ from utils.calculations import compare_two_entities
 from utils.formatting import format_number, format_percentage, format_compact
 
 def render_comparison_interface(code_a="PH040000000", code_b="PH130000000"):
+    code_a = code_a or "PH040000000"
+    code_b = code_b or "PH130000000"
+
     entities = load_population_data()
-    # Options grouped or sorted
-    options = [{"label": f"{e['name']} ({e['level']})", "value": e["code"]} for e in entities if e["level"] != "Country"]
+
+    # Options grouped: Country first, then Regions, then Provinces/HUCs
+    country_opt = [{"label": f"{e['name']} ({e['level']})", "value": e["code"]} for e in entities if e["level"] == "Country"]
+    region_opts = [{"label": f"{e['name']} ({e['level']})", "value": e["code"]} for e in entities if e["level"] == "Region"]
+    prov_opts = sorted(
+        [{"label": f"{e['name']} ({e['level']})", "value": e["code"]} for e in entities if e["level"] not in ("Country", "Region")],
+        key=lambda x: x["label"]
+    )
+    options = country_opt + region_opts + prov_opts
+
+    # Ensure code_a and code_b are present in options even if dynamically generated
+    existing_values = {opt["value"] for opt in options}
+    if code_a not in existing_values:
+        ea_extra = get_entity_by_code(code_a)
+        options.append({"label": f"{ea_extra['name']} ({ea_extra.get('level', 'Local')})", "value": code_a})
+        existing_values.add(code_a)
+    if code_b not in existing_values:
+        eb_extra = get_entity_by_code(code_b)
+        options.append({"label": f"{eb_extra['name']} ({eb_extra.get('level', 'Local')})", "value": code_b})
+        existing_values.add(code_b)
 
     comp = compare_two_entities(code_a, code_b)
     ea = comp["entity_a"]
     eb = comp["entity_b"]
+    is_same = (ea["code"] == eb["code"])
 
     # Comparative table rows
     metrics = [
@@ -34,21 +56,30 @@ def render_comparison_interface(code_a="PH040000000", code_b="PH130000000"):
     # Side-by-side grouped bar chart of age groups
     age_groups = ea["age_groups"]
     fig = go.Figure()
+
+    trace_a_name = f"{ea['short_name']} (A)" if is_same else ea["short_name"]
+    trace_b_name = f"{eb['short_name']} (B)" if is_same else eb["short_name"]
+
     fig.add_trace(go.Bar(
         x=age_groups,
         y=[ea["age_both"].get(g, 0) for g in age_groups],
-        name=ea["short_name"],
+        name=trace_a_name,
         marker=dict(color="#2563eb")
     ))
     fig.add_trace(go.Bar(
         x=age_groups,
         y=[eb["age_both"].get(g, 0) for g in age_groups],
-        name=eb["short_name"],
+        name=trace_b_name,
         marker=dict(color="#d97706")
     ))
+    chart_title = (
+        f"<b>Age Cohort Distribution: {ea['short_name']}</b>"
+        if is_same else
+        f"<b>Age Cohort Distribution: {ea['short_name']} vs {eb['short_name']}</b>"
+    )
     fig.update_layout(
         title=dict(
-            text=f"<b>Age Cohort Distribution: {ea['short_name']} vs {eb['short_name']}</b>",
+            text=chart_title,
             font=dict(size=13, color="#002d62", family="Outfit, sans-serif"),
             x=0.02
         ),
@@ -61,6 +92,30 @@ def render_comparison_interface(code_a="PH040000000", code_b="PH130000000"):
         paper_bgcolor="#ffffff",
         height=320
     )
+
+    if is_same:
+        summary_banner = html.Div([
+            html.Div([
+                html.Span("ℹ️", style={"marginRight": "8px", "fontSize": "1rem"}),
+                html.Span(
+                    f"Both Place A and Place B are currently set to {ea['name']}. "
+                    "Select a different location above to see side-by-side demographic comparisons and cohort differences.",
+                    style={"fontSize": "0.82rem", "color": "#92400e", "fontWeight": "600"}
+                )
+            ])
+        ], style={"background": "#fffbeb", "border": "1px solid #fde68a", "borderRadius": "var(--radius-sm)", "padding": "10px 14px", "marginBottom": "16px"})
+    else:
+        summary_banner = html.Div([
+            html.Div([
+                html.Img(src="/assets/icons/info.svg", style={"width": "16px", "height": "16px", "marginRight": "8px", "verticalAlign": "middle"}),
+                html.Span(
+                    f"Comparing {ea['name']} ({format_compact(ea['total_pop'])}) and {eb['name']} ({format_compact(eb['total_pop'])}). "
+                    f"Difference: {format_number(comp['pop_difference'])} residents ({comp['pop_diff_pct']:+.1f}%). "
+                    "All indicators are purely descriptive and derived from the 2020 CPH.",
+                    style={"fontSize": "0.82rem", "color": "#1e293b"}
+                )
+            ])
+        ], style={"background": "#eff6ff", "border": "1px solid #bfdbfe", "borderRadius": "var(--radius-sm)", "padding": "10px 14px", "marginBottom": "16px"})
 
     return html.Div([
         # Selection Bar
@@ -93,25 +148,15 @@ def render_comparison_interface(code_a="PH040000000", code_b="PH130000000"):
         ], className="compare-select-bar"),
 
         # Summary Banner
-        html.Div([
-            html.Div([
-                html.Img(src="/assets/icons/info.svg", style={"width": "16px", "height": "16px", "marginRight": "8px", "verticalAlign": "middle"}),
-                html.Span(
-                    f"Comparing {ea['name']} ({format_compact(ea['total_pop'])}) and {eb['name']} ({format_compact(eb['total_pop'])}). "
-                    f"Difference: {format_number(comp['pop_difference'])} residents ({comp['pop_diff_pct']:+.1f}%). "
-                    "All indicators are purely descriptive and derived from the 2020 CPH.",
-                    style={"fontSize": "0.82rem", "color": "#1e293b"}
-                )
-            ])
-        ], style={"background": "#eff6ff", "border": "1px solid #bfdbfe", "borderRadius": "var(--radius-sm)", "padding": "10px 14px", "marginBottom": "16px"}),
+        summary_banner,
 
         # Comparison Table (Horizontal scroll wrapper for mobile)
         html.Div([
             html.Table([
                 html.Thead(html.Tr([
                     html.Th("Indicator", style={"width": "40%", "minWidth": "140px"}),
-                    html.Th(ea["name"], style={"width": "30%", "minWidth": "100px", "color": "#1d4ed8", "textAlign": "right"}),
-                    html.Th(eb["name"], style={"width": "30%", "minWidth": "100px", "color": "#b45309", "textAlign": "right"})
+                    html.Th(f"{ea['name']} (A)" if is_same else ea["name"], style={"width": "30%", "minWidth": "100px", "color": "#1d4ed8", "textAlign": "right"}),
+                    html.Th(f"{eb['name']} (B)" if is_same else eb["name"], style={"width": "30%", "minWidth": "100px", "color": "#b45309", "textAlign": "right"})
                 ])),
                 html.Tbody([
                     html.Tr([

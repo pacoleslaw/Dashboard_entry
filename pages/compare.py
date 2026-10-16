@@ -15,7 +15,7 @@ def render_compare_page(code_a="PH040000000", code_b="PH130000000"):
                 html.Span("Compare Places (Descriptive Analysis)", className="panel-title")
             ], className="panel-header"),
             html.P(
-                "Select any two Philippine regions, provinces, or highly urbanized cities to view side-by-side demographic indicators. "
+                "Select the Philippines or any two regions, provinces, or highly urbanized cities to view side-by-side demographic indicators. "
                 "All comparisons are strictly factual and derived from official PSA 2020 CPH records.",
                 style={"fontSize": "0.85rem", "color": "var(--text-muted)", "marginBottom": "16px"}
             ),

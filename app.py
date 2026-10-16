@@ -251,7 +251,11 @@ def handle_compare_dropdowns(vals_a, vals_b, compare_clicks, current_a, current_
     trig = ctx.triggered_id
     if isinstance(trig, dict) and trig.get("type") == "btn-compare-place":
         if any(c for c in compare_clicks if c):
-            return trig.get("code", current_a), current_b
+            new_a = trig.get("code") or current_a or "PH040000000"
+            new_b = current_b or "PH130000000"
+            if new_a == new_b:
+                new_b = "PH040000000" if new_a == "PH130000000" else "PH130000000"
+            return new_a, new_b
     val_a = next((v for v in vals_a if v), current_a)
     val_b = next((v for v in vals_b if v), current_b)
     return val_a or "PH040000000", val_b or "PH130000000"

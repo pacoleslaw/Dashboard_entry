@@ -1003,13 +1003,7 @@ def render_demographics_profile_insights_card(selected_code="PH000000000"):
                     html.Span("★", style={"color": "#0284c7", "marginRight": "4px", "fontSize": "0.8rem"}),
                     html.Span("What does this mean?", style={"fontSize": "0.74rem", "fontWeight": "700", "color": "#0284c7"})
                 ], style={"display": "flex", "alignItems": "center", "marginBottom": "2px"}),
-                html.P(callout_text, style={"fontSize": "0.72rem", "color": "#334155", "lineHeight": "1.35", "margin": "0 0 6px 0"}),
-                html.Button(
-                    [html.Span("•", style={"marginRight": "4px"}), html.Span("Compare this place"), html.Span(" ↗", style={"fontSize": "0.8rem", "marginLeft": "4px"})],
-                    id={"type": "btn-compare-place", "code": selected_code},
-                    className="demo-pill-btn",
-                    style={"fontSize": "0.72rem", "padding": "2px 10px"}
-                )
+                html.P(callout_text, style={"fontSize": "0.72rem", "color": "#334155", "lineHeight": "1.35", "margin": "0"})
             ], className="demo-callout-box", style={"marginTop": "6px", "padding": "8px 10px"})
         ]),
 
